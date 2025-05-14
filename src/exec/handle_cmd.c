@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/11 16:18:05 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 19:05:00 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ static void	ctrl_back(int sig)
 	(void)sig;
 	if (g_state_signal != 1)
 	{
-		write(1, "Quit (core dumped)\n", 1);
+		write(2, "Quit (core dumped)\n", 19);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
-		if (g_state_signal == 3)
-			g_state_signal = 4;
+		g_state_signal = 131;
 	}
 }
 
@@ -44,20 +42,19 @@ int	handle_cmd(t_info *info, t_pipe *pipe_fd)
 	built = 0;
 	id = -1;
 	if (info->cmd->nb_cmd == 1)
-		built = choice_of_builtin(info->cmd, info->env,
-				info->cmd_origin, pipe_fd);
+		built = choice_of_builtin(info, info->env, pipe_fd);
+	signal(SIGQUIT, ctrl_back);
 	if (built == 0)
 		id = fork();
 	if (id == 0)
 	{
-		signal(SIGQUIT, ctrl_back);
-		if (!verif_file(info->cmd, info->cmd_origin, info->env, pipe_fd))
-			free_cmd_env_pipe(info->cmd_origin, info->env, pipe_fd);
+		if (!verif_file(info, info->env, pipe_fd))
+			free_cmd_env_pipe(info, info->env, pipe_fd);
 		dup_no_fd(info->cmd, pipe_fd);
-		if (!choice_of_builtin(info->cmd, info->env, info->cmd_origin, pipe_fd))
-			execute(info->cmd, info->env, pipe_fd, info->cmd_origin);
+		if (!choice_of_builtin(info, info->env, pipe_fd))
+			execute(info, info->env, pipe_fd);
 		else
-			free_cmd_env_pipe(info->cmd_origin, info->env, pipe_fd);
+			free_cmd_env_pipe(info, info->env, pipe_fd);
 	}
 	info->last_pid = id;
 	g_state_signal = 2;

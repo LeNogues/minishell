@@ -1,0 +1,11 @@
+ignore_leak_readline.supp
+info
+input.txt
+libft
+ls
+Makefile
+minishell
+Minishell.h
+obj
+output.txt
+src

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 21:10:59 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 19:07:37 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_info
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
-int					choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
+int					choice_of_builtin(t_info *info, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -116,7 +116,7 @@ int					ft_echo(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_exit.c*******************************************************************
-void				ft_exit(t_cmd *cmd, t_env *env, t_pipe *pipe_fd);
+int					ft_exit(t_info *info, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_env.c********************************************************************
@@ -158,8 +158,7 @@ int					loop_on_middle(t_info *info, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // parsing.c*******************************************************************
-char				*verif_arg(t_cmd *cmd, t_cmd *cmd_origin, t_pipe *pipe_fd,
-						t_env *env);
+char				*verif_arg(t_info *info, t_pipe *pipe_fd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // path.c**********************************************************************
@@ -169,18 +168,16 @@ char				*get_path(t_env *env);
 // free.c**********************************************************************
 void				free_all_cmd(t_cmd *cmd);
 void				free_cmd(t_cmd *cmd);
-void				free_cmd_env_pipe(t_cmd *cmd_origin, t_env *env,
+void				free_cmd_env_pipe(t_info *info, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // verif.c*********************************************************************
-int					verif_file(t_cmd *cmd, t_cmd *cmd_origin, t_env *env,
-						t_pipe *pipe_fd);
+int					verif_file(t_info *info, t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // execute.c*******************************************************************
-void				execute(t_cmd *cmd, t_env *env, t_pipe *pipe_fd,
-						t_cmd *cmd_origin);
+void				execute(t_info *info, t_env *env, t_pipe *pipe_fd);
 void				execute_middle(t_cmd *cmd, char *full_path, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
@@ -223,10 +220,6 @@ int					dup_fd_in(t_cmd *cmd);
 int					dup_heredoc(t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
-//dup_origin.c*****************************************************************
-void				init_origin(t_pipe *pipe_fd);
-void				restore_origin(t_cmd *cmd_origin, t_env *env,
-						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

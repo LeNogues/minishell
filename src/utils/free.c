@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/29 16:23:00 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 17:37:38 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	free_cmd_env_pipe(t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
+void	free_cmd_env_pipe(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
-	free_all_cmd(cmd_origin);
+	free_all_cmd(info->cmd_origin);
 	free_tab(env->envp);
 	free(pipe_fd);
 	free(env);
+	free(info);
 	exit(EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 20:39:30 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 19:07:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,27 @@ static char	*create_new_path(t_env *env, char *path)
 	char	*cwd;
 	char	*temp;
 
+	temp = NULL;
 	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
 		return (perror("ft_getenv"), NULL);
-	temp = ft_strjoin(cwd, "/");
-	if (!temp)
-		return (free(cwd), perror("ft_strjoin"), NULL);
-	free(cwd);
-	cwd = ft_strjoin(temp, path);
+	if (ft_strncmp(cwd, "/", 2) != 0 || path)
+	{
+		if (ft_strncmp(cwd, "/", 2) != 0)
+		{
+			temp = ft_strjoin(cwd, "/");
+			if (!temp)
+				return (free(cwd), NULL);
+		}
+		else
+		{
+			temp = ft_strdup(cwd);
+			if (!temp)
+				return (free(cwd), NULL);
+		}
+	}
+	if (temp)
+		cwd = ft_strjoin(temp, path);
 	if (!cwd)
 		return (free(temp), free(path), perror("ft_strjoin"), NULL);
 	free(path);
@@ -48,12 +61,25 @@ static char	*create_new_path(t_env *env, char *path)
 	return (path);
 }
 
+void	get_rid_slash(char *cwd)
+{
+	int	i;
+
+	i = 0;
+	while (cwd[i])
+		i++;
+	if (cwd[i - 1] == '/')
+		cwd[i - 1] = 0;
+}
+
 static void	change_pwd(t_env *env, char *path)
 {
 	char	*new_pwd;
 	int		i;
+	char	*tmp_path;
 
 	i = 0;
+	tmp_path = ft_strdup(path);
 	if (!env || !env->envp)
 		return ;
 	while (env->envp[i])
@@ -64,14 +90,16 @@ static void	change_pwd(t_env *env, char *path)
 	}
 	if (path[0] != '/')
 		path = create_new_path(env, path);
-	if (ft_strncmp(path, "..", 3) == 1)
+	if (ft_strncmp(tmp_path, "..", 3) == 0)
 		new_pwd = get_parent(env);
 	else
 		new_pwd = ft_strjoin("PWD=", path);
 	if (!new_pwd)
 		return (perror("ft_strjoin"), free(path));
+	get_rid_slash(new_pwd);
 	free(env->envp[i]);
 	free(path);
+	free(tmp_path);
 	env->envp[i] = new_pwd;
 }
 

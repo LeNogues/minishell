@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   built_in1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/06 20:42:32 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 15:24:49 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	choice_of_builtin(t_cmd *cmd, t_env *env, t_cmd *cmd_origin,
-		t_pipe *pipe_fd)
+int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
-	if (ft_strncmp(cmd->cmd[0], "cd", 3) == 0)
-		return (ft_cd(cmd->cmd, env), 1);
-	else if (ft_strncmp(cmd->cmd[0], "pwd", 4) == 0)
+	if (!info->cmd->cmd)
+		return (0);
+	if (ft_strncmp(info->cmd->cmd[0], "cd", 3) == 0)
+		return (ft_cd(info->cmd->cmd, env), 1);
+	else if (ft_strncmp(info->cmd->cmd[0], "pwd", 4) == 0)
 		return (ft_pwd(env), 1);
-	else if (ft_strncmp(cmd->cmd[0], "echo", 5) == 0)
-		return (ft_echo(cmd), 1);
-	else if (ft_strncmp(cmd->cmd[0], "env", 4) == 0)
+	else if (ft_strncmp(info->cmd->cmd[0], "echo", 5) == 0)
+		return (ft_echo(info->cmd), 1);
+	else if (ft_strncmp(info->cmd->cmd[0], "env", 4) == 0)
 		return (ft_env(env), 1);
-	else if (ft_strncmp(cmd->cmd[0], "unset", 6) == 0)
-		return (ft_unset(cmd->cmd, env), 1);
-	else if (ft_strncmp(cmd->cmd[0], "export", 7) == 0)
-		return (ft_export(cmd->cmd, env), 1);
-	if (ft_strncmp(cmd->cmd[0], "exit", 5) == 0)
-		ft_exit(cmd_origin, env, pipe_fd);
+	else if (ft_strncmp(info->cmd->cmd[0], "unset", 6) == 0)
+		return (ft_unset(info->cmd->cmd, env), 1);
+	else if (ft_strncmp(info->cmd->cmd[0], "export", 7) == 0)
+		return (ft_export(info->cmd->cmd, env), 1);
+	if (ft_strncmp(info->cmd->cmd[0], "exit", 5) == 0)
+		return (ft_exit(info, env, pipe_fd));
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/11 16:21:56 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 16:08:18 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static void	ctrl_c(int sig)
 	rl_replace_line("", 0);
 	if (g_state_signal == 1)
 		rl_redisplay();
-	if (g_state_signal == 3)
-		g_state_signal = 4;
+	g_state_signal = 130;
 }
 
 void	handle_signal(void)

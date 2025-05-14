@@ -3,37 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 21:21:42 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/14 19:04:45 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	verif_file(t_cmd *cmd, t_cmd *cmd_origin, t_env *env, t_pipe *pipe_fd)
+int	verif_file(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
 	int	i;
 	int	result;
 
-	if (!cmd->name)
+	if (!info->cmd->name)
 		return (1);
 	i = 0;
-	while (cmd->name[i])
+	while (info->cmd->name[i])
 	{
-		if (cmd->in_or_out[i] == INPUT)
-			result = open_in(cmd, cmd->name[i]);
-		else if (cmd->in_or_out[i] == OUTPUT_APPEND
-			|| cmd->in_or_out[i] == OUTPUT_TRUNC)
-			result = open_out(cmd, cmd->name[i], cmd->in_or_out[i]);
+		if (info->cmd->in_or_out[i] == INPUT)
+			result = open_in(info->cmd, info->cmd->name[i]);
+		else if (info->cmd->in_or_out[i] == OUTPUT_APPEND
+			|| info->cmd->in_or_out[i] == OUTPUT_TRUNC)
+			result = open_out(info->cmd, info->cmd->name[i],
+					info->cmd->in_or_out[i]);
 		else
-			result = open_heredoc(cmd, cmd->name[i], pipe_fd);
+			result = open_heredoc(info->cmd, info->cmd->name[i], pipe_fd);
 		if (!result)
 		{
 			write(2, "could not execute file\n", 24);
 			close_pipe_fd(pipe_fd->old);
-			free_cmd_env_pipe(cmd_origin, env, pipe_fd);
+			free_cmd_env_pipe(info, env, pipe_fd);
 			return (0);
 		}
 		i++;
