@@ -47,4 +47,5 @@ echo $ ---> c est censer retourner $ mais l expand renvoie NULL
 ############################################################################
 
 ctrl + c dans heredoc casser
-env -i pas de command not found
+export test=oui teststest=non
+unset test1 test2= ne unset rien mais devrait unset test1

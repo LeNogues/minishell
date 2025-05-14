@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:59:14 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 17:32:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:15:47 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	*verif_arg(t_info *info, t_pipe *pipe_fd, t_env *env)
 		return (ft_strdup(info->cmd->cmd[0]));
 	full_path = get_path(env);
 	if (!full_path)
+	{
+		write(2, "Command not found\n", 19);
 		free_cmd_env_pipe(info, env, pipe_fd);
+	}
 	if (info->cmd->cmd[0] == 0)
 		return (full_path);
 	else if (find_executable(info->cmd->cmd[0], &full_path) == -1)
