@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:28:59 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/23 14:42:48 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:56:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,7 @@ char	*ft_getenv(char *value_name, t_env *env)
 		value_env = ft_strdup(env->envp[i] + size_value_name);
 	else
 		return (0);
+	if (!env->envp[i])
+		return (NULL);
 	return (value_env);
 }
