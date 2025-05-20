@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 21:06:30 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/19 15:08:31 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	info = malloc(sizeof(t_info));
+	if (!info)
+		return (0);
 	info->env = malloc(sizeof(t_env));
+	if (!info->env)
+		return (free(info), 0);
 	handle_signal();
 	if (!info->env)
 		return (-1);
@@ -31,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 			return (-1);
 	}
 	else if (set_environment(info->env, envp))
-		return (-1);
+		return (free(info->env), free(info),-1);
 	hub(info);
 	free_tab(info->env->envp);
 	free(info->env);

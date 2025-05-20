@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/14 19:05:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:49:12 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,14 @@
 static int	env_exist(t_env *env, char *cmd)
 {
 	int	i;
-	int	j;
 
 	if (!env->envp || !env->envp[0] || !cmd)
 		return (0);
 	i = 0;
 	while (env->envp[i])
 	{
-		j = 0;
-		while (env->envp[i][j] && cmd[j])
+		if (ft_strncmp(env->envp[i], cmd, ft_strlen(cmd) + 1) == -61)
 		{
-			if (env->envp[i][j] == cmd[j] && cmd[j] != '=')
-				j++;
-			else
-				break ;
-		}
-		if (env->envp[i][j] == '=')
-		{
-			free(env->envp[i]);
 			env->envp[i] = ft_strdup(cmd);
 			return (1);
 		}

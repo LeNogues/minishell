@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:32:00 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/24 11:32:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:08:46 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	create_env(t_env *env)
 		return (-1);
 	env->envp[0] = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 0));
 	if (!env->envp[0])
-		return (-1);
+		return (free(env->envp), -1);
 	env->envp[1] = 0;
 	return (0);
 }

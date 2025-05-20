@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:30:20 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:06:46 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:08:47 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char	*get_parent(t_env *env)
 
 	i = 0;
 	last = 0;
+	(void)env;
 	old_pwd = ft_getenv("PWD=", env);
+	if (!old_pwd)
+		return (0);
 	while (old_pwd[i])
 	{
 		if (old_pwd[i] == '/')

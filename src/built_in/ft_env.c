@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:46:15 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/04/02 17:40:15 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:32:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,11 @@ void	ft_env(t_env *env)
 	{
 		if (ft_strlen(env->envp[i++]) > 2097152)
 		{
-			ft_printf("Argument list too long");
+			printf("Argument list too long");
 			return ;
 		}
 	}
 	i = 0;
 	while (env->envp[i])
-	{
-		write(1, env->envp[i], ft_strlen(env->envp[i]));
-		write(1, "\n", 1);
-		i++;
-	}
+		printf("%s\n", env->envp[i++]);
 }

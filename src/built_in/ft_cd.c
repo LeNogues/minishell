@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:07:22 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:30:26 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static char	*create_new_path(t_env *env, char *path)
 		}
 	}
 	if (temp)
+	{
+		free(cwd);
 		cwd = ft_strjoin(temp, path);
+	}
 	if (!cwd)
 		return (free(temp), free(path), perror("ft_strjoin"), NULL);
 	free(path);
@@ -93,9 +96,9 @@ static void	change_pwd(t_env *env, char *path)
 	if (ft_strncmp(tmp_path, "..", 3) == 0)
 		new_pwd = get_parent(env);
 	else
-		new_pwd = ft_strjoin("PWD=", path);
+		new_pwd = ft_strjoin(" PWD=", path);
 	if (!new_pwd)
-		return (perror("ft_strjoin"), free(path));
+		return (free(path), free(tmp_path));
 	get_rid_slash(new_pwd);
 	free(env->envp[i]);
 	free(path);

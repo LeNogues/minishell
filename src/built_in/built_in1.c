@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/14 15:24:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:15:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	hub(t_info *info)
 			if (info->cmd)
 			{
 				info->cmd_origin = info->cmd;
-				free(line);
 				exec(info);
 				free_all_cmd(info->cmd_origin);
 			}
 		}
+		free(line);
 	}
 }
