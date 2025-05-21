@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_cmd.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 13:50:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 15:07:33 by sle-nogu         ###   ########.fr       */
+/*   Created: 2025/05/21 11:23:06 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/05/21 11:35:16 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "libft.h"
 
-int	first_cmd(t_cmd **cmd_address, t_info *info, t_pipe *pipe_fd)
+char	*ft_strndup(const char *s, int size)
 {
-	t_cmd	*current_cmd;
+	char	*dup;
+	int		i;
 
-	current_cmd = *cmd_address;
-	handle_cmd(info, pipe_fd);
-	if (current_cmd->next)
-		*cmd_address = current_cmd->next;
-	else
+	i = 0;
+	if (!s)
+		return (0);
+	dup = malloc(sizeof (char) * size + 1);
+	if (!dup)
+		return (0);
+	while (s[i] && i < size)
 	{
-		// wait(0);
-		return (1);
+		dup[i] = s[i];
+		i++;
 	}
-	return (1);
+	dup[i] = 0;
+	return (dup);
 }

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:05:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:10:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,15 @@ void	exec(t_info *info)
 	int		status_fils;
 
 	pipe_fd = malloc(sizeof(t_pipe) * 1);
+	if (!pipe_fd)
+		return ;
 	if (pipe(pipe_fd->old) == -1)
-		return ;
+		return (free(pipe_fd));
 	if (!do_cmd(info, pipe_fd))
-		return ;
-	while (waitpid(info->last_pid, &status_fils, 0) != -1)
-		;
+		return (close_pipe_fd(pipe_fd->old), free(pipe_fd));
+	waitpid(info->last_pid, &status_fils, 0);
+	info->return_value = WEXITSTATUS(status_fils);
 	while (waitpid(0, NULL, 0) != -1)
 		;
-	info->return_value = WEXITSTATUS(status_fils);
 	return ;
 }

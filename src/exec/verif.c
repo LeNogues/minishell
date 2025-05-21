@@ -6,13 +6,13 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:04:45 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:25:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	verif_file(t_info *info, t_env *env, t_pipe *pipe_fd)
+int	verif_file(t_info *info, t_pipe *pipe_fd)
 {
 	int	i;
 	int	result;
@@ -34,7 +34,11 @@ int	verif_file(t_info *info, t_env *env, t_pipe *pipe_fd)
 		{
 			write(2, "could not execute file\n", 24);
 			close_pipe_fd(pipe_fd->old);
-			free_cmd_env_pipe(info, env, pipe_fd);
+			return (0);
+		}
+		if (result == -1)
+		{
+			close_pipe_fd(pipe_fd->old);
 			return (0);
 		}
 		i++;

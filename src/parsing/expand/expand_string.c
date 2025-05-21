@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:15:35 by taqi              #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:20 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/21 11:14:44 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*return_string(t_token *node)
 	return (value_token);
 }
 
-void	expand_one_token_sub(t_token **head)
+void	expand_one_token_sub(t_token **head, t_info *info)
 {
 	t_token	*parcours;
 	char	*str;
@@ -89,18 +89,18 @@ void	expand_one_token_sub(t_token **head)
 	while (parcours)
 	{
 		if (parcours->type == EXPAND)
-			expand_one_token(parcours);
+			expand_one_token(parcours, info);
 		else if (parcours->type == STRING && parcours->start[0] == 39)
 		{
 			str = return_string_from_quote(parcours);
 			replace_node(parcours, str);
-			expand_one_token(parcours);
+			expand_one_token(parcours, info);
 		}
 		parcours = parcours->next;
 	}
 }
 
-void	expand_string(t_token **head, t_token *node)
+void	expand_string(t_token **head, t_token *node, t_info *info)
 {
 	char	*str;
 	char	*resu;
@@ -113,7 +113,7 @@ void	expand_string(t_token **head, t_token *node)
 	init_scanner(str);
 	create_list_of_token(&sub_linked_list);
 	free(str);
-	expand_one_token_sub(&sub_linked_list);
+	expand_one_token_sub(&sub_linked_list, info);
 	size = size_of_merged_string(&sub_linked_list);
 	resu = merge_string(&sub_linked_list, size);
 	replace_node(node, resu);

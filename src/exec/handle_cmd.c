@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:05:00 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:57:24 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	handle_cmd(t_info *info, t_pipe *pipe_fd)
 		id = fork();
 	if (id == 0)
 	{
-		if (!verif_file(info, info->env, pipe_fd))
+		g_state_signal = 2;
+		if (!verif_file(info, pipe_fd))
 			free_cmd_env_pipe(info, info->env, pipe_fd);
 		dup_no_fd(info->cmd, pipe_fd);
 		if (!choice_of_builtin(info, info->env, pipe_fd))

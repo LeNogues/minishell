@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 19:07:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:25:55 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void				free_cmd_env_pipe(t_info *info, t_env *env,
 ///////////////////////////////////////////////////////////////////////////////
 
 // verif.c*********************************************************************
-int					verif_file(t_info *info, t_env *env, t_pipe *pipe_fd);
+int					verif_file(t_info *info, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // execute.c*******************************************************************
@@ -260,15 +260,15 @@ typedef struct s_scanner
 }	t_scanner;
 
 // expand.c
-void				expand_one_token(t_token *token_node);
-void				expand_token(t_token **head);
-void				expand_string(t_token **head, t_token *node);
+void				expand_one_token(t_token *token_node, t_info *info);
+void				expand_token(t_token **head, t_info *info);
+void				expand_string(t_token **head, t_token *node, t_info *info);
 
 // expand_string.c
 int					size_of_merged_string(t_token **sub_linked);
 char				*merge_string(t_token **head, int size);
 char				*return_string_from_quote(t_token *node);
-void				expand_one_token_sub(t_token **head);
+void				expand_one_token_sub(t_token **head, t_info *info);
 char				*return_string(t_token *node);
 
 // expand_utils.c

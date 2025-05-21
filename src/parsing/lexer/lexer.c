@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:33:01 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/05/06 20:27:33 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/21 13:20:46 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_cmd	*merge(t_info *info, char *source)
 	head = NULL;
 	final = NULL;
 	create_list_of_token(&head);
-	expand_token(&head);
+	expand_token(&head, info);
 	fusion(&head);
 	parser(&head, &final);
 	ft_list_len(final);

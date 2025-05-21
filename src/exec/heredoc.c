@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/11 16:44:05 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/21 13:24:24 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 	if (passage == 0)
 		pipe(pipe_fd->heredoc);
 	passage++;
+	signal(SIGQUIT, SIG_IGN);
 	while (g_state_signal == 3)
 	{
 		line = readline("heredoc > ");
-		if (!line || g_state_signal == 4)
-			return (0);
+		if (!line || g_state_signal != 3)
+			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
 			free(line);
@@ -43,5 +44,7 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 			put_line(line, pipe_fd);
 		free(line);
 	}
-	return (1);
+	close_pipe_fd(pipe_fd->heredoc);
+	return (-1);
+	
 }

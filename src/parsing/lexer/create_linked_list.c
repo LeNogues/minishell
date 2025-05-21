@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:58:32 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/05 15:15:45 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/21 11:35:59 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	create_list_of_token(t_token **head)
 	{
 		token = scan_one_token();
 		token_list = malloc(sizeof(t_token));
-		token_list->start = strndup(token.start, token.length);
+		token_list->start = ft_strndup(token.start, token.length);
 		token_list->length = token.length;
 		token_list->type = token.type;
 		token_list->next = NULL;

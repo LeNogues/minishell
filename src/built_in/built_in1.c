@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/19 15:15:40 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:18:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	hub(t_info *info)
 {
 	char	*line;
 
+	info->return_value = 0;
 	while (1)
 	{
 		g_state_signal = 1;

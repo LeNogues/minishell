@@ -19,6 +19,7 @@ SRCS = ft_split.c \
        ft_tolower.c \
        ft_calloc.c \
        ft_strdup.c \
+       ft_strndup.c \
        ft_toupper.c \
        ft_isalnum.c \
        ft_memchr.c \
