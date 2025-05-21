@@ -6,11 +6,23 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 12:25:43 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:14:55 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+static int	open_all(t_info *info, t_pipe *pipe_fd, int i)
+{
+	if (info->cmd->in_or_out[i] == INPUT)
+		return (open_in(info->cmd, info->cmd->name[i]));
+	else if (info->cmd->in_or_out[i] == OUTPUT_APPEND
+		|| info->cmd->in_or_out[i] == OUTPUT_TRUNC)
+		return (open_out(info->cmd, info->cmd->name[i],
+				info->cmd->in_or_out[i]));
+	else
+		return (open_heredoc(info->cmd, info->cmd->name[i], pipe_fd));
+}
 
 int	verif_file(t_info *info, t_pipe *pipe_fd)
 {
@@ -22,14 +34,7 @@ int	verif_file(t_info *info, t_pipe *pipe_fd)
 	i = 0;
 	while (info->cmd->name[i])
 	{
-		if (info->cmd->in_or_out[i] == INPUT)
-			result = open_in(info->cmd, info->cmd->name[i]);
-		else if (info->cmd->in_or_out[i] == OUTPUT_APPEND
-			|| info->cmd->in_or_out[i] == OUTPUT_TRUNC)
-			result = open_out(info->cmd, info->cmd->name[i],
-					info->cmd->in_or_out[i]);
-		else
-			result = open_heredoc(info->cmd, info->cmd->name[i], pipe_fd);
+		result = open_all(info, pipe_fd, i);
 		if (!result)
 		{
 			write(2, "could not execute file\n", 24);

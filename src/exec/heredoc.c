@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 13:24:24 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:15:20 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
-			free(line);
 			if (passage == cmd->heredoc)
 				dup_heredoc(pipe_fd);
-			return (1);
+			return (free(line), 1);
 		}
 		if (passage == cmd->heredoc)
 			put_line(line, pipe_fd);
@@ -46,5 +45,4 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 	}
 	close_pipe_fd(pipe_fd->heredoc);
 	return (-1);
-	
 }

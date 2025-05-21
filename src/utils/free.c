@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 13:07:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:08:37 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_all_cmd(t_cmd *cmd)
 	{
 		tmp = cmd->next;
 		if (cmd->cmd)
-			free_tab(cmd->cmd);	
+			free_tab(cmd->cmd);
 		if (cmd->name)
 			free_tab(cmd->name);
 		if (cmd->in_or_out)

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 14:57:24 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:20:23 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	ctrl_back(int sig)
 	}
 }
 
-int	handle_cmd(t_info *info, t_pipe *pipe_fd)
+void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 {
 	int	id;
 	int	built;
@@ -61,5 +61,4 @@ int	handle_cmd(t_info *info, t_pipe *pipe_fd)
 	g_state_signal = 2;
 	if (info->cmd->nb_cmd == 1)
 		close_pipe_fd(pipe_fd->old);
-	return (1);
 }

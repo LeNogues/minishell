@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:03:28 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 20:48:48 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/21 16:24:05 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	do_cmd(t_info *info, t_pipe *pipe_fd)
 	while (info->cmd->next)
 		info->cmd = info->cmd->next;
 	if (info->cmd->nb_cmd >= 2)
-	{
-		if (!handle_cmd(info, pipe_fd))
-			return (0);
-	}
+		handle_cmd(info, pipe_fd);
 	close_pipe_fd(pipe_fd->old);
 	free(pipe_fd);
 	return (1);

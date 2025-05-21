@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/20 13:58:28 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:29:23 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	ft_export(char **cmd, t_env *env)
 	while (env->envp[i] != 0)
 	{
 		new_env->envp[i] = ft_strdup(env->envp[i]);
+		if (!new_env->envp[i])
+			return (free_tab(new_env->envp), free(new_env));
 		i++;
 	}
 	new_env->envp[i] = NULL;
