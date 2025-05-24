@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/05 16:34:18 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/24 13:36:47 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	finalize_node(t_cmd *node, int cmd_count, int redir_count)
 	node->cmd[cmd_count] = NULL;
 	node->name[redir_count] = NULL;
 	if (node->cmd[0] == NULL)
+	{
+		free(node->cmd);
 		node->cmd = NULL;
+	}
+		
 	if (node->name[0] == NULL)
 	{
 		free(node->name);
