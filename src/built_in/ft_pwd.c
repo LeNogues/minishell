@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:45:28 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/20 13:57:35 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:21:14 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(t_env *env)
 	current_path = ft_getenv("PWD=", env);
 	if (!current_path)
 	{
-		perror("getcwd");
+		printf("Error retrieving current working directory\n");
 		return (0);
 	}
 	printf("%s\n", current_path);
