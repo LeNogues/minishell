@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/21 16:29:23 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:29:33 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,35 +59,36 @@ static void	add_arguments(int i, int size, char **cmd, t_env *new_env)
 	new_env->envp[i] = NULL;
 }
 
-void	ft_export(char **cmd, t_env *env)
+int	ft_export(char **cmd, t_env *env)
 {
 	int		size;
 	int		i;
 	t_env	*new_env;
 
 	if (!env || !env->envp)
-		return ;
+		return (0);
 	i = 0;
 	size = ft_tablen(env->envp) + ft_tablen(cmd) + 1;
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
-		return ;
+		return (0);
 	new_env->envp = ft_calloc(sizeof(char *), size);
 	if (!new_env->envp)
-		return ;
+		return (0);
 	while (env->envp[i] != 0)
 	{
 		new_env->envp[i] = ft_strdup(env->envp[i]);
 		if (!new_env->envp[i])
-			return (free_tab(new_env->envp), free(new_env));
+			return (free_tab(new_env->envp), free(new_env), 0);
 		i++;
 	}
 	new_env->envp[i] = NULL;
 	add_arguments(i, size, cmd, new_env);
 	if (!new_env)
-		return (free_tab(env->envp));
+		return (free_tab(env->envp), 0);
 	free_tab(env->envp);
 	set_environment(env, new_env->envp);
 	free_tab(new_env->envp);
 	free(new_env);
+	return (0);
 }

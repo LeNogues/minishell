@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:46:43 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 16:09:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/25 12:54:55 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,23 @@ static int	create_new_env(t_env *env, char **new_env, char **cmd)
 	return (1);
 }
 
-void	ft_unset(char **cmd, t_env *env)
+int	ft_unset(char **cmd, t_env *env)
 {
 	char	**new_env;
 	int		size;
 
 	if (!env || !env->envp)
-		return ;
+		return (0);
 	size = ft_tablen(env->envp) + 1;
 	if (!cmd[1])
-		return ;
+		return (0);
 	new_env = ft_calloc(sizeof(char *), size);
 	if (!new_env)
-		return ;
+		return (0);
 	if (!create_new_env(env, new_env, cmd))
-		return ;
+		return (0);
 	free_tab(env->envp);
 	set_environment(env, new_env);
 	free_tab(new_env);
-	return ;
+	return (0);
 }
