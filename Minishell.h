@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/25 14:29:13 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:15:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct s_info
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
+int					choice_of_builtin(t_info *info, t_env *env,
+						t_pipe *pipe_fd);
 int					choice_of_builtin(t_info *info, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
@@ -199,6 +201,7 @@ int					dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 
 // heredoc.c********************************************************************
 int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
+int					open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // set_env.c********************************************************************

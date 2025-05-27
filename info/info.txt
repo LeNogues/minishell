@@ -45,3 +45,4 @@ si : <<<<<< ou >>>>> pas d erreur de syntax (<<<< est actuellement compris comme
 #                                                                          #
 ############################################################################
 
+plus de redirection : dans le fork de handle_cmd, changer la condition if (!built_in) par if (built_in == -1)

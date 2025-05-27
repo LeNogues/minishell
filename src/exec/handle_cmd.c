@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/24 14:08:08 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:05:27 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,22 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 	int	id;
 	int	built;
 
-	built = 0;
+	built = -1;
 	id = -1;
 	if (info->cmd->nb_cmd == 1)
 		built = choice_of_builtin(info, info->env, pipe_fd);
 	signal(SIGQUIT, ctrl_back);
 	signal(SIGINT, SIG_IGN);
-	if (built == 0)
+	if (built == -1)
 		id = fork();
-	if (id == 0)
+	if (id == 0 && built == -1)
 	{
 		g_state_signal = 2;
 		signal(SIGINT, ctrl_c);
 		if (!verif_file(info, pipe_fd))
 			free_cmd_env_pipe(info, info->env, pipe_fd);
 		dup_no_fd(info->cmd, pipe_fd);
-		if (!choice_of_builtin(info, info->env, pipe_fd))
+		if (choice_of_builtin(info, info->env, pipe_fd) == -1)
 			execute(info, info->env, pipe_fd);
 		else
 			free_cmd_env_pipe(info, info->env, pipe_fd);

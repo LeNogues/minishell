@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/25 12:41:51 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:00:45 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	open_not_all(t_info *info, t_pipe *pipe_fd, int i)
 		return (open_out(info->cmd, info->cmd->name[i],
 				info->cmd->in_or_out[i]));
 	else
-		return (open_heredoc(info->cmd, info->cmd->name[i], pipe_fd));
+		return (open_heredoc_bis(info->cmd, info->cmd->name[i], pipe_fd));
 }
 
 int	verif_file_builtin(t_info *info, t_pipe *pipe_fd)
