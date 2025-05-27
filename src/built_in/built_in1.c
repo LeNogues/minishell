@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/27 11:03:25 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/27 11:23:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 			close(info->cmd->fd_out);
 			dup2(fd_dup, STDOUT_FILENO);
 		}
-		if (info->cmd->name && info->cmd->in_or_out[0] == HEREDOC)
+		if (info->cmd->fd_in)
 		{
-			close_pipe_fd(pipe_fd->heredoc);
 			dup2(fd_in, STDIN_FILENO);
 		}
 	}
