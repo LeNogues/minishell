@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_verif.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:39:42 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/05 15:17:13 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/30 16:47:03 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	syntax_verif(t_token **head)
 
 	current = *head;
 	if (current == NULL || current->type == PIPE)
-		return (printf("ERROR\n"), 1);
+		return (printf("syntax error\n"), 1);
 	while (current)
 	{
 		if (is_redir_type(current->type))
@@ -32,7 +32,17 @@ int	syntax_verif(t_token **head)
 				return (1);
 		}
 		else if (current->type == ERROR)
-			return (printf("ERROR\n"), 1);
+			return (printf("syntax error\n"), 1);
+		else if (current->type == COMMAND && current->start[0] == '<')
+		{
+			if (find_next_significant(current)->type == HEREDOC)
+				return (printf("syntax error\n"), 1);
+		}
+		else if (current->type == COMMAND && current->start[0] == '>')
+		{
+			if (find_next_significant(current)->type == APPEND)
+				return (printf("syntax error\n"), 1);
+		}
 		else
 			current = current->next;
 	}

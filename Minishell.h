@@ -6,7 +6,7 @@
 /*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/30 15:53:01 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:23:53 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,6 +359,8 @@ void				init_indices(int indices[2]);
 int					handle_redir_syntax(t_token **current_ptr);
 int					handle_pipe_syntax(t_token **current_ptr);
 int					is_redir_type(t_token_type type);
+t_token				*find_next_significant(t_token *current);
+
 
 // syntax_verif.c
 int					syntax_verif(t_token **head);
