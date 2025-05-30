@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:43:22 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/21 15:20:25 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:03:37 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+void	expand_one_token_return_value(t_token *token_node, t_info *info)
+{
+	char	*value;
+
+	//printf ("RETURN VALUE = %d \n", info->return_value);
+	value = ft_itoa(info->return_value);
+	//printf ("quand je passe a itoa ca donne %s \n", value);
+	free(token_node->start);
+	token_node->start = ft_strdup(value);
+	token_node->length = ft_strlen(value);
+	free(value);
+	// int	i = 0;
+	// printf(" le token est : ");
+	// while (i < token_node->length)
+	// {
+	// 	printf("%c" ,token_node->start[i]);
+	// 	i++;
+	// }
+	// printf("\n");
+}
 
 void	expand_one_token(t_token *token_node, t_info *info)
 {
@@ -88,6 +109,8 @@ void	expand_token(t_token **head, t_info *info)
 			while (parcours->type == WHITESPACE)
 				parcours = parcours->next;
 		}
+		else if (parcours->type == RETURN_COMMAND)
+			expand_one_token_return_value(parcours, info);
 		parcours = parcours->next;
 	}
 }

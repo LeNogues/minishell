@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:23 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/21 11:36:19 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:04:36 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	*handle_cmd_token(t_cmd *node, t_token *token, int *i)
 {
 	if (token->type == COMMAND || token->type == STRING
-		|| token->type == EXPAND)
+		|| token->type == EXPAND || token->type == RETURN_COMMAND)
 	{
 		node->cmd[*i] = ft_strndup(token->start, token->length);
 		(*i)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:04:03 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/05/06 20:26:35 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/30 15:31:22 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	expand(void)
 	if (peek() == '?')
 	{
 		advance();
-		return (make_token(COMMAND));
+		return (make_token(RETURN_COMMAND));
 	}
 	while (!is_at_end() && (is_allnum(peek()) || peek() == '_'))
 		advance();

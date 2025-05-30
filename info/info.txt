@@ -26,7 +26,7 @@ probleme parsing sur :  echo $"HOME"
                         echo $adasdasdzd
                         echo $"'$PWD'"
                         echo $"''$PWD'"
-pas d export si : export A="yo toi"                             solution : ????
+pas d export si : export A="yo toi"                           solution : ????
 echo $ ---> c est censer retourner $ mais l expand renvoie NULL
 si : <<<<<< ou >>>>> pas d erreur de syntax (<<<< est actuellement compris comme un heredoc)
 

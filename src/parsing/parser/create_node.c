@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/24 13:36:47 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:03:13 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	fill(t_cmd *node, t_token *start, t_token *pipe, int indices[2])
 	while (parcours != pipe)
 	{
 		if (parcours->type == COMMAND || parcours->type == STRING
-			|| parcours->type == EXPAND)
+			|| parcours->type == EXPAND || parcours->type == RETURN_COMMAND)
 			parcours = handle_cmd_token(node, parcours, &indices[0]);
 		else if (parcours->type == REDIR_IN)
 			parcours = handle_redir_in(node, parcours, &indices[1]);

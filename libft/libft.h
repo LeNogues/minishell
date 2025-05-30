@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 13:36:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 11:24:09 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:44:55 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		ft_putstr(char *s);
 int		ft_putpointeur(void *s);
 int		ft_puthexa_addr(unsigned long nb, int size);
 long	ft_atol(const char *str, long *result);
+char	*ft_itoa(int n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

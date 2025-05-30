@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/27 10:15:17 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/30 15:53:01 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ typedef enum e_token_type
 	STRING,
 	WHITESPACE,
 	NONE,
+	RETURN_COMMAND,
 	ERROR
 }	t_token_type;
 
@@ -267,10 +268,14 @@ typedef struct s_scanner
 	char	*current;
 }	t_scanner;
 
+
+
 // expand.c
 void				expand_one_token(t_token *token_node, t_info *info);
 void				expand_token(t_token **head, t_info *info);
 void				expand_string(t_token **head, t_token *node, t_info *info);
+void				expand_one_token_return_value(t_token *token_node, t_info *info);
+
 
 // expand_string.c
 int					size_of_merged_string(t_token **sub_linked);
