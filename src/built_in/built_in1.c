@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/27 11:23:01 by seb              ###   ########.fr       */
+/*   Updated: 2025/05/27 12:26:49 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 			dup2(fd_dup, STDOUT_FILENO);
 		}
 		if (info->cmd->fd_in)
-		{
 			dup2(fd_in, STDIN_FILENO);
-		}
 	}
 	return (result);
 }
