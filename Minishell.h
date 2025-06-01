@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/30 15:53:01 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:48:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,12 @@ int					cd_home(t_env *env, char **path);
 char				*get_parent(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
+//ft_cd_utils2.c
+int					create_env_cd(char *env_to_create, t_env *env);
+void				get_rid_slash(char *cwd);
+char				*create_new_path(t_env *env, char *path);
+///////////////////////////////////////////////////////////////////////////////
+
 // ft_echo.c*******************************************************************
 int					ft_echo(t_cmd *cmd);
 ///////////////////////////////////////////////////////////////////////////////
@@ -201,7 +207,8 @@ int					dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 
 // heredoc.c********************************************************************
 int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
-int					open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
+int					open_heredoc_bis(t_cmd *cmd,
+						char *limiter, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // set_env.c********************************************************************
@@ -225,7 +232,7 @@ int					dup_heredoc(t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 //signal.c
-void	ctrl_c(int sig);
+void				ctrl_c(int sig);
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -268,14 +275,12 @@ typedef struct s_scanner
 	char	*current;
 }	t_scanner;
 
-
-
 // expand.c
 void				expand_one_token(t_token *token_node, t_info *info);
 void				expand_token(t_token **head, t_info *info);
 void				expand_string(t_token **head, t_token *node, t_info *info);
-void				expand_one_token_return_value(t_token *token_node, t_info *info);
-
+void				expand_one_token_return_value(t_token *token_node,
+						t_info *info);
 
 // expand_string.c
 int					size_of_merged_string(t_token **sub_linked);

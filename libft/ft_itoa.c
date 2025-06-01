@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 15:43:10 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/05/30 15:43:35 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:46:30 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*is_zero(void)
 	number = ft_calloc(sizeof(char), 2);
 	number[0] = '0';
 	return (number);
-}	
+}
 
 char	*ft_itoa(int n)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 15:10:15 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:15:07 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	exec(t_info *info)
 		return (close_pipe_fd(pipe_fd->old), free(pipe_fd));
 	waitpid(info->last_pid, &status_fils, 0);
 	info->return_value = WEXITSTATUS(status_fils);
+	if (g_state_signal == 130 || g_state_signal == 131)
+		info->return_value = g_state_signal;
 	while (waitpid(0, NULL, 0) != -1)
 		;
 	return ;

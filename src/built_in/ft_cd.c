@@ -3,76 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/19 15:30:26 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:59:12 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static int	create_env_cd(char *env_to_create, t_env *env)
+static void	free_things(t_env *env, char *path, char *tmp_path, int i)
 {
-	char	**cmd;
-
-	cmd = ft_split(env_to_create, ' ');
-	if (!cmd)
-		return (0);
-	ft_export(cmd, env);
-	free_tab(cmd);
-	return (1);
-}
-
-static char	*create_new_path(t_env *env, char *path)
-{
-	char	*cwd;
-	char	*temp;
-
-	temp = NULL;
-	cwd = ft_getenv("PWD=", env);
-	if (!cwd)
-		return (perror("ft_getenv"), NULL);
-	if (ft_strncmp(cwd, "/", 2) != 0 || path)
-	{
-		if (ft_strncmp(cwd, "/", 2) != 0)
-		{
-			temp = ft_strjoin(cwd, "/");
-			if (!temp)
-				return (free(cwd), NULL);
-		}
-		else
-		{
-			temp = ft_strdup(cwd);
-			if (!temp)
-				return (free(cwd), NULL);
-		}
-	}
-	if (temp)
-	{
-		free(cwd);
-		cwd = ft_strjoin(temp, path);
-	}
-	if (!cwd)
-		return (free(temp), free(path), perror("ft_strjoin"), NULL);
+	free(env->envp[i]);
 	free(path);
-	free(temp);
-	path = ft_strdup(cwd);
-	if (!path)
-		return (free(cwd), perror("ft_strdup"), NULL);
-	free(cwd);
-	return (path);
-}
-
-void	get_rid_slash(char *cwd)
-{
-	int	i;
-
-	i = 0;
-	while (cwd[i])
-		i++;
-	if (cwd[i - 1] == '/')
-		cwd[i - 1] = 0;
+	free(tmp_path);
 }
 
 static void	change_pwd(t_env *env, char *path)
@@ -96,13 +40,11 @@ static void	change_pwd(t_env *env, char *path)
 	if (ft_strncmp(tmp_path, "..", 3) == 0)
 		new_pwd = get_parent(env);
 	else
-		new_pwd = ft_strjoin(" PWD=", path);
+		new_pwd = ft_strjoin("PWD=", path);
 	if (!new_pwd)
 		return (free(path), free(tmp_path));
 	get_rid_slash(new_pwd);
-	free(env->envp[i]);
-	free(path);
-	free(tmp_path);
+	free_things(env, path, tmp_path, i);
 	env->envp[i] = new_pwd;
 }
 

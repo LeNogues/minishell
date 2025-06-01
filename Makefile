@@ -12,6 +12,7 @@ SRC=    src/main.c \
 		src/built_in/ft_export_utils.c \
 		src/built_in/ft_cd.c \
 		src/built_in/ft_cd_utils.c \
+		src/built_in/ft_cd_utils2.c \
 		src/built_in/ft_echo.c \
 		src/built_in/ft_env.c \
 		src/built_in/ft_exit.c \

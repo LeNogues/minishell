@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:43:22 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/30 16:03:37 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:12:56 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,11 @@ void	expand_one_token_return_value(t_token *token_node, t_info *info)
 {
 	char	*value;
 
-	//printf ("RETURN VALUE = %d \n", info->return_value);
 	value = ft_itoa(info->return_value);
-	//printf ("quand je passe a itoa ca donne %s \n", value);
 	free(token_node->start);
 	token_node->start = ft_strdup(value);
 	token_node->length = ft_strlen(value);
 	free(value);
-	// int	i = 0;
-	// printf(" le token est : ");
-	// while (i < token_node->length)
-	// {
-	// 	printf("%c" ,token_node->start[i]);
-	// 	i++;
-	// }
-	// printf("\n");
 }
 
 void	expand_one_token(t_token *token_node, t_info *info)
@@ -51,16 +41,14 @@ void	expand_one_token(t_token *token_node, t_info *info)
 	value_token[i] = 0;
 	value = ft_getenv(value_token, info->env);
 	free(value_token);
+	free(token_node->start);
+	token_node->length = ft_strlen(value);
 	if (!value)
 	{
-		free(token_node->start);
 		token_node->start = ft_strdup("");
-		token_node->length = ft_strlen(value);
 		return ;
 	}
-	free(token_node->start);
 	token_node->start = ft_strdup(value);
-	token_node->length = ft_strlen(value);
 	free(value);
 }
 

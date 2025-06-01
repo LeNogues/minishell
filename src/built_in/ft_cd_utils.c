@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:30:20 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/19 16:08:47 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:34:04 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,65 @@ int	cd_home(t_env *env, char **path)
 	return (1);
 }
 
+char	*do_something(char *temp_pwd, int last, char *old, char *new_pwd)
+{
+	int	i;
+
+	i = -1;
+	temp_pwd = malloc(sizeof(char) * (last) + 1);
+	if (!temp_pwd)
+		return (NULL);
+	while (++i < last)
+		temp_pwd[i] = old[i];
+	temp_pwd[i] = 0;
+	new_pwd = ft_strjoin("PWD=", temp_pwd);
+	if (!new_pwd)
+		return (NULL);
+	free(temp_pwd);
+	return (new_pwd);
+}
+
+char	*join_parent(char *temp_pwd, int last, char *old, char *new_pwd)
+{
+	if (ft_strncmp(old, "/home", 6) == 0 || ft_strncmp(old, "/", 2) == 0)
+	{
+		new_pwd = ft_strjoin("PWD=", "/");
+		if (!new_pwd)
+			return (free(old), NULL);
+	}
+	else
+	{
+		new_pwd = do_something(temp_pwd, last, old, new_pwd);
+		if (!new_pwd)
+			return (free(old), NULL);
+	}
+	return (new_pwd);
+}
+
 char	*get_parent(t_env *env)
 {
 	int		last;
 	int		i;
-	char	*old_pwd;
+	char	*old;
 	char	*temp_pwd;
 	char	*new_pwd;
 
 	i = 0;
 	last = 0;
-	(void)env;
-	old_pwd = ft_getenv("PWD=", env);
-	if (!old_pwd)
+	old = ft_getenv("PWD=", env);
+	temp_pwd = NULL;
+	new_pwd = NULL;
+	if (!old)
 		return (0);
-	while (old_pwd[i])
+	while (old[i])
 	{
-		if (old_pwd[i] == '/')
+		if (old[i] == '/')
 			last = i;
 		i++;
 	}
-	if (ft_strncmp(old_pwd, "/home", 6) == 0
-		|| ft_strncmp(old_pwd, "/", 2) == 0)
-		new_pwd = ft_strjoin("PWD=", "/");
-	else
-	{
-		i = -1;
-		temp_pwd = malloc(sizeof(char) * (last) + 1);
-		while (++i < last)
-			temp_pwd[i] = old_pwd[i];
-		temp_pwd[i] = 0;
-		new_pwd = ft_strjoin("PWD=", temp_pwd);
-		free(temp_pwd);
-	}
-	free(old_pwd);
+	new_pwd = join_parent(temp_pwd, last, old, new_pwd);
+	if (!new_pwd)
+		return (NULL);
+	free(old);
 	return (new_pwd);
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/27 11:05:27 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/01 16:34:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ static void	ctrl_back(int sig)
 	}
 }
 
+static void	handle_signal_bis(void)
+{
+	signal(SIGQUIT, ctrl_back);
+	signal(SIGINT, SIG_IGN);
+}
+
 void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 {
 	int	id;
@@ -43,13 +49,12 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 	id = -1;
 	if (info->cmd->nb_cmd == 1)
 		built = choice_of_builtin(info, info->env, pipe_fd);
-	signal(SIGQUIT, ctrl_back);
-	signal(SIGINT, SIG_IGN);
+	handle_signal_bis();
 	if (built == -1)
 		id = fork();
+	g_state_signal = 2;
 	if (id == 0 && built == -1)
 	{
-		g_state_signal = 2;
 		signal(SIGINT, ctrl_c);
 		if (!verif_file(info, pipe_fd))
 			free_cmd_env_pipe(info, info->env, pipe_fd);
@@ -60,7 +65,6 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 			free_cmd_env_pipe(info, info->env, pipe_fd);
 	}
 	info->last_pid = id;
-	g_state_signal = 2;
 	if (info->cmd->nb_cmd == 1)
 		close_pipe_fd(pipe_fd->old);
 }

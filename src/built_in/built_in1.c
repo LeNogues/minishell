@@ -6,19 +6,38 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/05/27 12:26:49 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/01 14:27:45 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
+static int	execute_built_in_bis(int type, t_info *info,
+	t_env *env, t_pipe *pipe_fd)
+{
+	if (type == 1)
+		return (ft_cd(info->cmd->cmd, env));
+	else if (type == 2)
+		return (ft_pwd(env));
+	else if (type == 3)
+		return (ft_echo(info->cmd));
+	else if (type == 4)
+		return (ft_env(env));
+	else if (type == 5)
+		return (ft_unset(info->cmd->cmd, env));
+	else if (type == 6)
+		return (ft_export(info->cmd->cmd, env));
+	if (type == 7)
+		return (ft_exit(info, env, pipe_fd));
+	return (0);
+}
+
 int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 {
-	int result;
-	int fd_dup;
-	int fd_in;
+	int	result;
+	int	fd_dup;
+	int	fd_in;
 
-	result = 0;
 	fd_dup = 0;
 	fd_in = 0;
 	if (info->cmd->nb_cmd == 1)
@@ -28,23 +47,9 @@ int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 		if (!verif_file_builtin(info, pipe_fd))
 			return (1);
 	}
-	if (type == 1)
-		result = ft_cd(info->cmd->cmd, env);
-	else if (type == 2)
-		result = ft_pwd(env);
-	else if (type == 3)
-		result = ft_echo(info->cmd);
-	else if (type == 4)
-		result = ft_env(env);
-	else if (type == 5)
-		result = ft_unset(info->cmd->cmd, env);
-	else if (type == 6)
-		result = ft_export(info->cmd->cmd, env);
-	if (type == 7)
-		result = ft_exit(info, env, pipe_fd);
+	result = execute_built_in_bis(type, info, env, pipe_fd);
 	if (info->cmd->nb_cmd == 1)
 	{
-		
 		if (info->cmd->fd_out)
 		{
 			close(info->cmd->fd_out);
@@ -58,8 +63,8 @@ int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 
 int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
-	int result;
-	int type;
+	int	result;
+	int	type;
 
 	result = -1;
 	type = 0;

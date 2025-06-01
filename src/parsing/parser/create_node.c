@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/30 16:03:13 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:10:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	finalize_node(t_cmd *node, int cmd_count, int redir_count)
 		free(node->cmd);
 		node->cmd = NULL;
 	}
-		
 	if (node->name[0] == NULL)
 	{
 		free(node->name);
