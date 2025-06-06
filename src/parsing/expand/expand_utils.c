@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:45:55 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:31 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/05 21:20:36 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ int	size_of_merged_string(t_token **sub_linked)
 		parcours = parcours->next;
 	}
 	return (resu);
+}
+
+int	is_only_dollars(t_token  *node)
+{
+	if (node->start[0] == '$' && node->length == 1)
+		return (1);
+	return (0);
 }

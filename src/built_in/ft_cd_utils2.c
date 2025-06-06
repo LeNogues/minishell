@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:36:01 by seb               #+#    #+#             */
-/*   Updated: 2025/06/01 13:55:18 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:26 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	*create_new_path(t_env *env, char *path)
 	char	*cwd;
 	char	*temp;
 
+	temp = NULL;
 	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
 		return (perror("ft_getenv"), NULL);

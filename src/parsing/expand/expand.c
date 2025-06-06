@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:43:22 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/01 13:12:56 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/05 21:17:26 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	without_quote(t_token **head, t_token *node)
 	replace_node(node, str);
 }
 
+
 void	expand_token(t_token **head, t_info *info)
 {
 	t_token	*parcours;
@@ -85,7 +86,13 @@ void	expand_token(t_token **head, t_info *info)
 	parcours = *head;
 	while (parcours)
 	{
-		if (parcours->type == EXPAND)
+		if (parcours->type == EXPAND && is_only_dollars(parcours))
+		{
+			if (parcours->next == NULL)
+				break;	
+			parcours = parcours->next;
+		}
+		else if (parcours->type == EXPAND)
 			expand_one_token(parcours, info);
 		else if (parcours->type == STRING && will_expand(parcours))
 			expand_string(head, parcours, info);

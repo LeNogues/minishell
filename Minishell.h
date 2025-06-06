@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/01 13:48:26 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/06 14:12:47 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int					dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // heredoc.c********************************************************************
-int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd);
+int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info);
 int					open_heredoc_bis(t_cmd *cmd,
 						char *limiter, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
@@ -293,6 +293,8 @@ char				*return_string(t_token *node);
 char				*ft_strchr(const char *s, int c);
 void				free_token_list(t_token **head);
 void				replace_node(t_token *node, char *resu);
+int					is_only_dollars(t_token  *node);
+
 
 // main_function.c
 void				fusion(t_token **head);

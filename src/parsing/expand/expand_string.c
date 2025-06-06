@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:15:35 by taqi              #+#    #+#             */
-/*   Updated: 2025/05/30 15:50:49 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/05 21:22:08 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,13 @@ void	expand_one_token_sub(t_token **head, t_info *info)
 	parcours = *head;
 	while (parcours)
 	{
-		if (parcours->type == EXPAND)
+		if (parcours->type == EXPAND && is_only_dollars(parcours))
+		{
+			if (parcours->next == NULL)
+				break;	
+			parcours = parcours->next;
+		}
+		else if (parcours->type == EXPAND)
 			expand_one_token(parcours, info);
 		else if (parcours->type == RETURN_COMMAND)
 			expand_one_token_return_value (parcours, info);

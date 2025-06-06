@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/01 13:46:05 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/06 18:43:44 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	put_line(char *line, t_pipe *pipe_fd)
 int	open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 {
 	char		*line;
-	static int	passage = 0;
+	//static int	passage = 0;
 
 	g_state_signal = 3;
-	passage++;
+	//passage++;
 	(void)cmd;
 	(void)pipe_fd;
 	signal(SIGQUIT, SIG_IGN);
@@ -42,7 +42,84 @@ int	open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 	return (-1);
 }
 
-int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
+static char *append_char(char *s, char c)
+{
+	size_t	len;
+	char	*new;
+
+	if (s == NULL)
+		len = 0;
+	else
+		len = ft_strlen(s);
+	new = malloc(len + 2);
+	if (new == NULL)
+		return (NULL);
+	if (s != NULL)
+		ft_memcpy(new, s, len);
+	new[len] = c;
+	new[len + 1] = '\0';
+	free(s);
+	return (new);
+}
+
+char	*expand_for_heredoc(char *line, t_info *info)
+{
+	size_t	i;
+	char	*out;
+	char	*tmp;
+	char	*name;
+	char	*val;
+	char	*sts;
+	size_t	start;
+
+	i = 0;
+	out = ft_strdup("");
+	while (line != NULL && line[i] != '\0')
+	{
+		if (line[i] == '$' && line[i + 1] != '\0')
+		{
+			if (line[i + 1] == '?')
+			{
+				sts = ft_itoa(info->return_value);
+				if (sts == NULL)
+					return (free(out), free(line), NULL);
+				tmp = ft_strjoin(out, sts);
+				free(out);
+				free(sts);
+				out = tmp;
+				i += 2;
+				continue ;
+			}
+			if (!ft_isalpha(line[i + 1]) && line[i + 1] != '_')
+			{
+				out = append_char(out, line[i]);
+				i++;
+				continue ;
+			}
+			i++;
+			start = i;
+			while (ft_isalnum(line[i]) || line[i] == '_')
+				i++;
+			name = ft_substr(line, start, i - start);
+			val = ft_getenv(name, info->env);
+			if (val == NULL)
+				val = "";
+			tmp = ft_strjoin(out, val);
+			free(out);
+			free(name);
+			out = tmp;
+		}
+		else
+		{
+			out = append_char(out, line[i]);
+			i++;
+		}
+	}
+	free(line);
+	return (out);
+}
+
+int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info)
 {
 	char		*line;
 	static int	passage = 0;
@@ -57,6 +134,7 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 		line = readline("heredoc > ");
 		if (!line || g_state_signal != 3)
 			break ;
+		line = expand_for_heredoc(line, info);
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
 			if (passage == cmd->heredoc)
