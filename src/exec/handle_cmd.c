@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/01 16:34:24 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/11 16:46:04 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,16 @@ static void	ctrl_back(int sig)
 	}
 }
 
+static void	ctrl_c_bis(int sig)
+{
+	(void)sig;
+	g_state_signal = 130;
+}
+
 static void	handle_signal_bis(void)
 {
 	signal(SIGQUIT, ctrl_back);
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, ctrl_c_bis);
 }
 
 void	handle_cmd(t_info *info, t_pipe *pipe_fd)
@@ -65,6 +71,8 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 			free_cmd_env_pipe(info, info->env, pipe_fd);
 	}
 	info->last_pid = id;
+	if (g_state_signal == 130 || g_state_signal == 131)
+		info->return_value = g_state_signal;
 	if (info->cmd->nb_cmd == 1)
 		close_pipe_fd(pipe_fd->old);
 }

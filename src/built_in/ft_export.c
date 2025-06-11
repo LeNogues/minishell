@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/01 19:09:10 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/11 17:02:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static int	env_exist(t_env *env, char *cmd)
 	i = 0;
 	while (env->envp[i])
 	{
-		if (ft_strncmp(env->envp[i], cmd, ft_strlen(cmd) + 1) == -61)
+		//printf("envp[i] : %s | cmd : %s | score : %d\n", env->envp[i], cmd, ft_strncmp(env->envp[i], cmd, ft_strlen(cmd) + 1));
+		if (ft_strncmp(env->envp[i], cmd, ft_strlen(cmd) + 1) == 0)
 		{
-			env->envp[i] = ft_strdup(cmd);
 			if (!env->envp[i])
 				return (0);
 			return (1);

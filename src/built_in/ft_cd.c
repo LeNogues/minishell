@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/01 13:59:12 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/10 10:31:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_cd(char **cmd, t_env *env)
 	if (size_tab == 1)
 	{
 		if (!cd_home(env, &path))
-			return (0);
+			return (1);
 	}
 	else if (size_tab > 2)
 		return (perror("too many arguments"), 0);
@@ -97,8 +97,8 @@ int	ft_cd(char **cmd, t_env *env)
 		path = ft_strdup(cmd[1]);
 	}
 	if (chdir(path) == -1)
-		return (perror(path), free(path), 0);
+		return (perror(path), free(path), 1);
 	change_old_pwd(env);
 	change_pwd(env, path);
-	return (1);
+	return (0);
 }

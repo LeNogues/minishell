@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/01 14:27:45 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/11 16:49:11 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 		type = 7;
 	if (type != 0)
 		result = execute_built_in(type, info, env, pipe_fd);
+	if (result != 0)
+		type = fork();
+	if (type == 0)
+		exit(result);
 	return (result);
 }
 
@@ -112,6 +116,8 @@ void	hub(t_info *info)
 				free_all_cmd(info->cmd_origin);
 			}
 		}
+		if (g_state_signal == 130 || g_state_signal == 131)
+			info->return_value = g_state_signal;
 		free(line);
 		signal(SIGINT, ctrl_c);
 	}
