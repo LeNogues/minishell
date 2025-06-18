@@ -7,6 +7,7 @@ LIBFTDIR = ./libft
 
 SRC=    src/main.c \
 		src/built_in/built_in1.c \
+		src/built_in/add_histo_and_exec.c \
 		src/built_in/ft_getenv.c \
 		src/built_in/ft_export.c \
 		src/built_in/ft_export_utils.c \

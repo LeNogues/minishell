@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/16 16:53:08 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 23:01:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@ void	dup_no_fd(t_cmd *cmd, t_pipe *pipe_fd)
 		dup_last(cmd, pipe_fd);
 }
 
-static void	ctrl_back(int sig)
-{
-	(void)sig;
-	if (g_state_signal != 1)
-	{
-		write(2, "Quit (core dumped)\n", 19);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		g_state_signal = 131;
-	}
-}
-
 static void	ctrl_c_bis(int sig)
 {
 	(void)sig;
@@ -44,6 +32,18 @@ static void	handle_signal_bis(void)
 {
 	signal(SIGQUIT, ctrl_back);
 	signal(SIGINT, ctrl_c_bis);
+}
+
+void	open_and_execute(t_info *info, t_pipe *pipe_fd)
+{
+	signal(SIGINT, ctrl_c);
+	if (!verif_file(info, pipe_fd))
+		free_cmd_env_pipe(info, info->env, pipe_fd);
+	dup_no_fd(info->cmd, pipe_fd);
+	if (choice_of_builtin(info, info->env, pipe_fd) == -1)
+		execute(info, info->env, pipe_fd);
+	else
+		free_cmd_env_pipe_bis(info, info->env, pipe_fd);
 }
 
 void	handle_cmd(t_info *info, t_pipe *pipe_fd)
@@ -60,16 +60,7 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 		id = fork();
 	g_state_signal = 2;
 	if (id == 0 && built == -1)
-	{
-		signal(SIGINT, ctrl_c);
-		if (!verif_file(info, pipe_fd))
-			free_cmd_env_pipe(info, info->env, pipe_fd);
-		dup_no_fd(info->cmd, pipe_fd);
-		if (choice_of_builtin(info, info->env, pipe_fd) == -1)
-			execute(info, info->env, pipe_fd);
-		else
-			free_cmd_env_pipe(info, info->env, pipe_fd);
-	}
+		open_and_execute(info, pipe_fd);
 	info->last_pid = id;
 	if (g_state_signal == 130 || g_state_signal == 131)
 		info->return_value = g_state_signal;

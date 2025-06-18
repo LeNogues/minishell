@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:59:14 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/16 16:54:36 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 22:48:32 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-char	*ft_write_mini_path(char *mini_path, char *dir, char *command)
+char	*ft_write_mini_path(char *dir, char *command)
 {
 	const int	size = ft_strlen(dir) + ft_strlen(command) + 2;
 	int			i;
 	int			j;
+	char		*mini_path;
 
 	mini_path = malloc(sizeof(char) * size);
 	if (!mini_path)
@@ -45,8 +46,8 @@ int	find_executable(char *command, char **full_path)
 	while (dir != NULL)
 	{
 		free(*full_path);
-		*full_path = ft_write_mini_path(*full_path, dir, command);
-		if (access(*full_path, X_OK) == 0)
+		*full_path = ft_write_mini_path(dir, command);
+		if (!full_path || access(*full_path, X_OK) == 0)
 			return (free(path), 0);
 		dir = ft_strtok(NULL, ':');
 	}
@@ -68,17 +69,17 @@ char	*verif_arg(t_info *info, t_pipe *pipe_fd, t_env *env)
 	full_path = get_path(env);
 	if (!full_path)
 	{
-		write(2, "Command not found\n", 19);
+		ft_putstr_fd(info->cmd->cmd[0], 2);
+		write(2, " : Command not found\n", 21);
 		free_cmd_env_pipe(info, env, pipe_fd);
 	}
 	if (info->cmd->cmd[0] == 0)
 		return (full_path);
 	else if (find_executable(info->cmd->cmd[0], &full_path) == -1)
 	{
-		write(2, "Command not found\n", 19);
-		full_path = ft_strdup("not found");
-		if (!full_path)
-			return (0);
+		ft_putstr_fd(info->cmd->cmd[0], 2);
+		write(2, " : Command not found\n", 21);
+		free_cmd_env_pipe(info, env, pipe_fd);
 	}
 	return (full_path);
 }

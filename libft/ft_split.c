@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sebastienlenogues@gmail.com      +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:03:16 by sle-nogu          #+#    #+#             */
-/*   Updated: 2024/11/17 18:42:39 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:06:07 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static int	count_words(const char *str, char c)
@@ -54,7 +55,7 @@ char	**ft_split(char const *s, char c)
 
 	tab = malloc((count_words(s, c) + 1) * sizeof(char *));
 	if (!s || !tab)
-		return (0);
+		return (free_tab(tab), NULL);
 	i = 0;
 	j = 0;
 	start = -1;

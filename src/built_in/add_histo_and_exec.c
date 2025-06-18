@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   add_histo_and_exec.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 12:55:46 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 21:55:06 by sle-nogu         ###   ########.fr       */
+/*   Created: 2025/06/18 23:13:31 by sle-nogu          #+#    #+#             */
+/*   Updated: 2025/06/18 23:13:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	execute(t_info *info, t_env *env, t_pipe *pipe_fd)
+void	add_histo_and_exec(t_info *info, char *line)
 {
-	info->cmd->full_path = verif_arg(info, pipe_fd, env);
-	if (!info->cmd->cmd)
-		free_cmd_env_pipe(info, env, pipe_fd);
-	if (info->cmd->full_path)
-		execve(info->cmd->full_path, info->cmd->cmd, env->envp);
-	write(2, "execution impossible\n", 21);
-	free_cmd_env_pipe(info, env, pipe_fd);
+	add_history(line);
+	info->cmd = merge(info, line);
+	if (info->cmd)
+	{
+		info->cmd_origin = info->cmd;
+		exec(info);
+		free_all_cmd(info->cmd_origin);
+	}
 }

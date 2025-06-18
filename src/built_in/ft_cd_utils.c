@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:30:20 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/01 13:34:04 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 22:04:08 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*do_something(char *temp_pwd, int last, char *old, char *new_pwd)
 	temp_pwd[i] = 0;
 	new_pwd = ft_strjoin("PWD=", temp_pwd);
 	if (!new_pwd)
-		return (NULL);
+		return (free(temp_pwd), NULL);
 	free(temp_pwd);
 	return (new_pwd);
 }

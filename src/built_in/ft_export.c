@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/17 21:49:22 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 22:45:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int	env_exist(t_env *env, char *cmd)
 	if (!env->envp || !env->envp[0] || !cmd)
 		return (0);
 	i = 0;
-	j = 0;
 	while (env->envp[i])
 	{
+		j = 0;
 		while (env->envp[i][j] || cmd[j])
 		{
 			if (env->envp[i][j] == '=' && cmd[j] == '=')
@@ -58,8 +58,8 @@ static void	add_arguments(int i, int size, char **cmd, t_env *new_env)
 					free(new_env);
 					return ;
 				}
+				i++;
 			}
-			i++;
 		}
 		j++;
 	}
@@ -96,10 +96,10 @@ int	ft_export(char **cmd, t_env *env)
 		return (0);
 	new_env->envp = ft_calloc(sizeof(char *), size);
 	if (!new_env->envp)
-		return (0);
+		return (free(new_env), 0);
 	new_env = copy_env(env, &i, new_env);
 	if (!new_env)
-		return (free(new_env), 0);
+		return (free_tab(new_env->envp), 0);
 	add_arguments(i, size, cmd, new_env);
 	if (!new_env)
 		return (free_tab(env->envp), 0);

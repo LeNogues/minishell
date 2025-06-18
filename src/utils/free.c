@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/16 16:55:29 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 21:33:12 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,14 @@ void	free_cmd_env_pipe(t_info *info, t_env *env, t_pipe *pipe_fd)
 	free(env);
 	free(info);
 	exit(127);
+}
+
+void	free_cmd_env_pipe_bis(t_info *info, t_env *env, t_pipe *pipe_fd)
+{
+	free_all_cmd(info->cmd_origin);
+	free_tab(env->envp);
+	free(pipe_fd);
+	free(env);
+	free(info);
+	exit(1);
 }

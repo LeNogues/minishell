@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/16 16:22:35 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 23:14:21 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				nb_cmd;
+	int				fd_stdin;
+	int				fd_stdout;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -72,8 +74,6 @@ typedef struct s_pipe
 	int				old[2];
 	int				new[2];
 	int				heredoc[2];
-	int				fd_stdin;
-	int				fd_stdout;
 }					t_pipe;
 
 typedef struct s_env
@@ -126,8 +126,8 @@ int					ft_echo(t_cmd *cmd);
 // ft_exit.c*******************************************************************
 int					ft_exit(t_info *info, t_env *env, t_pipe *pipe_fd);
 
-void	exit_clean(unsigned int return_value, t_info *info, t_env *env,
-		t_pipe *pipe_fd);
+void				exit_clean(unsigned int return_value, t_info *info,
+						t_env *env, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_env.c********************************************************************
@@ -155,7 +155,13 @@ char				*ft_getenv(char *value_name, t_env *env);
 char				*ft_getenv_bis(char *value_name, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
+//add_histo_and_exec.c
+void				add_histo_and_exec(t_info *info, char *line);
+///////////////////////////////////////////////////////////////////////////////
+
 // signal.c********************************************************************
+void				ctrl_back(int sig);
+void				ctrl_back_bis(int sig);
 void				handle_signal(void);
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -181,6 +187,8 @@ char				*get_path(t_env *env);
 void				free_all_cmd(t_cmd *cmd);
 void				free_cmd(t_cmd *cmd);
 void				free_cmd_env_pipe(t_info *info, t_env *env,
+						t_pipe *pipe_fd);
+void				free_cmd_env_pipe_bis(t_info *info, t_env *env,
 						t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -210,7 +218,8 @@ int					dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // heredoc.c********************************************************************
-int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info);
+int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd,
+						t_info *info);
 int					open_heredoc_bis(t_cmd *cmd,
 						char *limiter, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
@@ -297,8 +306,7 @@ char				*return_string(t_token *node);
 char				*ft_strchr(const char *s, int c);
 void				free_token_list(t_token **head);
 void				replace_node(t_token *node, char *resu);
-int					is_only_dollars(t_token  *node);
-
+int					is_only_dollars(t_token *node);
 
 // main_function.c
 void				fusion(t_token **head);

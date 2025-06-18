@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/10 10:31:39 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 22:52:03 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	free_things(t_env *env, char *path, char *tmp_path, int i)
 
 static void	change_pwd(t_env *env, char *path)
 {
-	char	*new_pwd;
 	int		i;
 	char	*tmp_path;
 
@@ -35,17 +34,8 @@ static void	change_pwd(t_env *env, char *path)
 			break ;
 		i++;
 	}
-	if (path[0] != '/')
-		path = create_new_path(env, path);
-	if (ft_strncmp(tmp_path, "..", 3) == 0)
-		new_pwd = get_parent(env);
-	else
-		new_pwd = ft_strjoin("PWD=", path);
-	if (!new_pwd)
-		return (free(path), free(tmp_path));
-	get_rid_slash(new_pwd);
 	free_things(env, path, tmp_path, i);
-	env->envp[i] = new_pwd;
+	env->envp[i] = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 0));
 }
 
 static void	change_old_pwd(t_env *env)

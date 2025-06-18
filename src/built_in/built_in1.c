@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/17 18:31:37 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 23:15:36 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,11 @@ int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 	return (result);
 }
 
-int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
+int	get_type(t_info *info)
 {
-	int	result;
 	int	type;
 
-	result = -1;
 	type = 0;
-	if (!info->cmd->cmd)
-		return (-1);
 	if (ft_strncmp(info->cmd->cmd[0], "cd", 3) == 0)
 		type = 1;
 	else if (ft_strncmp(info->cmd->cmd[0], "pwd", 4) == 0)
@@ -82,13 +78,29 @@ int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 		type = 5;
 	else if (ft_strncmp(info->cmd->cmd[0], "export", 7) == 0)
 		type = 6;
-	if (ft_strncmp(info->cmd->cmd[0], "exit", 5) == 0)
+	else if (ft_strncmp(info->cmd->cmd[0], "exit", 5) == 0)
 		type = 7;
+	return (type);
+}
+
+int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
+{
+	int	result;
+	int	type;
+	int	id;
+
+	result = -1;
+	type = 0;
+	id = -1;
+	if (!info->cmd->cmd)
+		return (-1);
+	type = get_type(info);
 	if (type != 0)
+	{
 		result = execute_built_in(type, info, env, pipe_fd);
-	if (result != 0)
-		type = fork();
-	if (type == 0)
+		id = fork();
+	}
+	if (id == 0)
 		exit_clean(result, info, env, pipe_fd);
 	return (result);
 }
@@ -100,22 +112,13 @@ void	hub(t_info *info)
 	info->return_value = 0;
 	while (1)
 	{
-		// g_state_signal = 1;
+		g_state_signal = 1;
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("\001\e[32m\002Minishell : \001\e[0m\002");
 		if (!line)
 			return ;
 		if (line[0] != 0)
-		{
-			add_history(line);
-			info->cmd = merge(info, line);
-			if (info->cmd)
-			{
-				info->cmd_origin = info->cmd;
-				exec(info);
-				free_all_cmd(info->cmd_origin);
-			}
-		}
+			add_histo_and_exec(info, line);
 		if (g_state_signal == 130 || g_state_signal == 131)
 			info->return_value = g_state_signal;
 		free(line);

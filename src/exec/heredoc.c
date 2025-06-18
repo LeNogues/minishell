@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/17 18:53:28 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/18 23:06:47 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,22 +121,19 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info)
 {
 	char		*line;
 	static int	passage = 0;
-	char		*before_expand;
 
-	g_state_signal = 3;
 	if (passage == 0)
 		pipe(pipe_fd->heredoc);
 	passage++;
-	signal(SIGQUIT, SIG_IGN);
-	before_expand = ft_strdup(limiter);
+	signal(SIGQUIT, ctrl_back_bis);
 	while (g_state_signal == 3)
 	{
 		line = readline("heredoc > ");
 		if (!line || g_state_signal != 3)
 			break ;
-		line = expand_for_heredoc(line, info);
-		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0
-			|| ft_strncmp(before_expand, limiter, ft_strlen(limiter) + 1) == 0)
+		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) != 0)
+			line = expand_for_heredoc(line, info);
+		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
 			if (passage == cmd->heredoc)
 				dup_heredoc(pipe_fd);
@@ -146,6 +143,5 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info)
 			put_line(line, pipe_fd);
 		free(line);
 	}
-	close_pipe_fd(pipe_fd->heredoc);
-	return (-1);
+	return (close_pipe_fd(pipe_fd->heredoc), -1);
 }
