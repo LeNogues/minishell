@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/21 16:08:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:55:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	free_cmd_env_pipe(t_info *info, t_env *env, t_pipe *pipe_fd)
 	free(pipe_fd);
 	free(env);
 	free(info);
-	exit(EXIT_FAILURE);
+	exit(127);
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/11 16:49:38 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/17 18:31:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exec(t_info *info)
 	t_pipe	*pipe_fd;
 	int		status_fils;
 
+	g_state_signal = 1;
 	pipe_fd = malloc(sizeof(t_pipe) * 1);
 	if (!pipe_fd)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/01 19:08:46 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/17 18:25:08 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	is_valid(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] != '_' && !ft_isalnum(str[i]) && str[i] != '=' && str[i] != ' ')
+		if (str[i] == '=')
+			return (1);
+		if (str[i] != '_' && !ft_isalnum(str[i])
+			&& str[i] != '=' && str[i] != ' ')
 			return (0);
 		i++;
 	}

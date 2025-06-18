@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/11 16:49:11 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/17 18:31:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 	if (result != 0)
 		type = fork();
 	if (type == 0)
-		exit(result);
+		exit_clean(result, info, env, pipe_fd);
 	return (result);
 }
 
@@ -100,11 +100,11 @@ void	hub(t_info *info)
 	info->return_value = 0;
 	while (1)
 	{
-		g_state_signal = 1;
+		// g_state_signal = 1;
+		signal(SIGQUIT, SIG_IGN);
 		line = readline("\001\e[32m\002Minishell : \001\e[0m\002");
 		if (!line)
 			return ;
-		signal(SIGQUIT, SIG_IGN);
 		if (line[0] != 0)
 		{
 			add_history(line);

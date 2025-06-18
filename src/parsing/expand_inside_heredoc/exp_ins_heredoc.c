@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   exp_ins_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:15:05 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/06 12:15:08 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/17 18:23:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-

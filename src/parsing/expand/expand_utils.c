@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:45:55 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/05 21:20:36 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/17 18:24:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	size_of_merged_string(t_token **sub_linked)
 	return (resu);
 }
 
-int	is_only_dollars(t_token  *node)
+int	is_only_dollars(t_token *node)
 {
 	if (node->start[0] == '$' && node->length == 1)
 		return (1);

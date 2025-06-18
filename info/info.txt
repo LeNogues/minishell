@@ -42,4 +42,6 @@ probleme parsing sur :  echo $"HOME"
 #                                                                          #
 ############################################################################
 
-return value de ctrl + c et d ne fonctionne pas 
+invalide write sur echo $?                                              | a gerer par taqi
+invalide read sur echo $? (créé par le write ?)                         |
+export créée de multiple instance ? wesh c etait pepite avant ca

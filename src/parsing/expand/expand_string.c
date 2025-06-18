@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:15:35 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/05 21:22:08 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/17 18:24:07 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	expand_one_token_sub(t_token **head, t_info *info)
 		if (parcours->type == EXPAND && is_only_dollars(parcours))
 		{
 			if (parcours->next == NULL)
-				break;	
+				break ;
 			parcours = parcours->next;
 		}
 		else if (parcours->type == EXPAND)

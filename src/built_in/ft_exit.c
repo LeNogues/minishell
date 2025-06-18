@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/14 15:29:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:22:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static void	exit_clean(unsigned int return_value, t_info *info, t_env *env,
+void	exit_clean(unsigned int return_value, t_info *info, t_env *env,
 		t_pipe *pipe_fd)
 {
 	free_all_cmd(info->cmd);
