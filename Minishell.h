@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 23:14:21 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:20:49 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ typedef struct s_info
 	int		last_pid;
 }					t_info;
 
+int					prepare_redirections(t_info *info);
+void				close_redirection_fds(t_cmd *cmd);
+int					prepare_redirections(t_info *info);
+int					open_all(t_info *info, int i);
+void				dup_no_fd(t_cmd *cmd, t_pipe *pipe_fd);
+
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
 int					choice_of_builtin(t_info *info, t_env *env,
@@ -163,12 +169,14 @@ void				add_histo_and_exec(t_info *info, char *line);
 void				ctrl_back(int sig);
 void				ctrl_back_bis(int sig);
 void				handle_signal(void);
+void				ctrl_c_bis(int sig);
 ///////////////////////////////////////////////////////////////////////////////
 
 // exec.c**********************************************************************
 void				exec(t_info *info);
-int					open_in(t_cmd *cmd, char *name);
-int					open_out(t_cmd *cmd, char *name, int type);
+int					open_in(t_cmd *cmd, const char *name);
+int					open_out(t_cmd *cmd, const char *filename, int type);
+
 ///////////////////////////////////////////////////////////////////////////////
 
 // exec_loop.c*****************************************************************
@@ -218,8 +226,7 @@ int					dup_middle(t_cmd *cmd, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // heredoc.c********************************************************************
-int					open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd,
-						t_info *info);
+int					open_heredoc(t_cmd *cmd, char *limiter,	t_info *info);
 int					open_heredoc_bis(t_cmd *cmd,
 						char *limiter, t_pipe *pipe_fd);
 ///////////////////////////////////////////////////////////////////////////////

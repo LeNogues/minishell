@@ -6,17 +6,17 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 23:06:47 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:21:51 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static void	put_line(char *line, t_pipe *pipe_fd)
-{
-	ft_putstr_fd(line, pipe_fd->heredoc[1]);
-	ft_putstr_fd("\n", pipe_fd->heredoc[1]);
-}
+// static void	put_line(char *line, t_pipe *pipe_fd)
+// {
+// 	ft_putstr_fd(line, pipe_fd->heredoc[1]);
+// 	ft_putstr_fd("\n", pipe_fd->heredoc[1]);
+// }
 
 int	open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 {
@@ -32,9 +32,7 @@ int	open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 		if (!line || g_state_signal != 3)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
-		{
 			return (free(line), 1);
-		}
 		free(line);
 	}
 	return (-1);
@@ -99,12 +97,13 @@ char	*expand_for_heredoc(char *line, t_info *info)
 			while (ft_isalnum(line[i]) || line[i] == '_')
 				i++;
 			name = ft_substr(line, start, i - start);
-			val = ft_getenv(name, info->env);
+			val = ft_getenv_bis(name, info->env);
 			if (val == NULL)
 				val = "";
 			tmp = ft_strjoin(out, val);
 			free(out);
 			free(name);
+			free(val);
 			out = tmp;
 		}
 		else
@@ -117,31 +116,40 @@ char	*expand_for_heredoc(char *line, t_info *info)
 	return (out);
 }
 
-int	open_heredoc(t_cmd *cmd, char *limiter, t_pipe *pipe_fd, t_info *info)
+int	open_heredoc(t_cmd *cmd, char *limiter, t_info *info)
 {
-	char		*line;
-	static int	passage = 0;
+	char	*line;
+	int		pipe_hd[2];
 
-	if (passage == 0)
-		pipe(pipe_fd->heredoc);
-	passage++;
-	signal(SIGQUIT, ctrl_back_bis);
+	if (pipe(pipe_hd) == -1)
+		return (perror("pipe"), 0);
+	g_state_signal = 3;
+	signal(SIGQUIT, SIG_IGN);
 	while (g_state_signal == 3)
 	{
 		line = readline("heredoc > ");
 		if (!line || g_state_signal != 3)
 			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) != 0)
-			line = expand_for_heredoc(line, info);
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
-			if (passage == cmd->heredoc)
-				dup_heredoc(pipe_fd);
-			return (free(line), 1);
+			free(line);
+			break ;
 		}
-		if (passage == cmd->heredoc)
-			put_line(line, pipe_fd);
+		line = expand_for_heredoc(line, info);
+		write(pipe_hd[1], line, ft_strlen(line));
+		write(pipe_hd[1], "\n", 1);
 		free(line);
 	}
-	return (close_pipe_fd(pipe_fd->heredoc), -1);
+	if (g_state_signal != 3)
+	{
+		close(pipe_hd[0]);
+		close(pipe_hd[1]);
+		info->return_value = 130;
+		return (-1);
+	}
+	close(pipe_hd[1]);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	cmd->fd_in = pipe_hd[0];
+	return (1);
 }

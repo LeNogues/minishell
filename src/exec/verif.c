@@ -6,13 +6,13 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 23:07:35 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:10:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static int	open_all(t_info *info, t_pipe *pipe_fd, int i)
+int	open_all(t_info *info, int i)
 {
 	if (info->cmd->in_or_out[i] == INPUT)
 		return (open_in(info->cmd, info->cmd->name[i]));
@@ -21,10 +21,7 @@ static int	open_all(t_info *info, t_pipe *pipe_fd, int i)
 		return (open_out(info->cmd, info->cmd->name[i],
 				info->cmd->in_or_out[i]));
 	else
-	{
-		g_state_signal = 3;
-		return (open_heredoc(info->cmd, info->cmd->name[i], pipe_fd, info));
-	}
+		return (open_heredoc(info->cmd, info->cmd->name[i], info));
 }
 
 static int	open_not_all(t_info *info, t_pipe *pipe_fd, int i)
@@ -78,7 +75,7 @@ int	verif_file(t_info *info, t_pipe *pipe_fd)
 	i = 0;
 	while (info->cmd->name[i])
 	{
-		result = open_all(info, pipe_fd, i);
+		result = open_all(info, i);
 		if (!result)
 		{
 			write(2, "could not open file\n", 20);

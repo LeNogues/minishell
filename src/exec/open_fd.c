@@ -3,36 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   open_fd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:27:23 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/05/06 20:56:10 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/19 11:53:11 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	open_in(t_cmd *cmd, char *name)
+int	open_out(t_cmd *cmd, const char *filename, int type)
 {
-	cmd->fd_in = open(name, O_RDONLY);
-	if (cmd->fd_in == -1)
+	int	fd;
+	int	flags;
+
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
+	if (type == OUTPUT_APPEND)
+		flags = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
+	fd = open(filename, flags, 0644);
+	if (fd == -1)
+	{
+		perror(filename);
+		cmd->fd_out = -1;
 		return (0);
-	if (!dup_fd_in(cmd))
-		return (0);
+	}
+	cmd->fd_out = fd;
 	return (1);
 }
 
-int	open_out(t_cmd *cmd, char *name, int type)
+int	open_in(t_cmd *cmd, const char *filename)
 {
-	if (type == 2)
-		cmd->fd_out = open(name, O_WRONLY | O_CREAT | O_TRUNC,
-				0644);
-	else
-		cmd->fd_out = open(name, O_WRONLY | O_CREAT | O_APPEND,
-				0644);
-	if (cmd->fd_out == -1)
+	int	fd;
+
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(filename);
+		cmd->fd_in = -1;
 		return (0);
-	if (!dup_fd_out(cmd))
-		return (0);
+	}
+	cmd->fd_in = fd;
 	return (1);
 }

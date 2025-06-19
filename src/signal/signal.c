@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 23:04:58 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:20:23 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ void	ctrl_c(int sig)
 	g_state_signal = 130;
 }
 
+void	ctrl_c_bis(int sig)
+{
+	(void)sig;
+	g_state_signal = 130;
+}
+
 void	ctrl_back(int sig)
 {
 	(void)sig;
@@ -34,21 +40,6 @@ void	ctrl_back(int sig)
 		rl_on_new_line();
 		g_state_signal = 131;
 	}
-}
-
-void	ctrl_back_bis(int sig)
-{
-	int			i;
-	const char	*str;
-
-	(void)sig;
-	i = 0;
-	while (i < 500000)
-		i++;
-	str = "\b \b\b \b\033[K";
-	write(STDOUT_FILENO, str, strlen(str));
-	str = "\033[1A\033[2Kheredoc > ";
-	write(STDOUT_FILENO, str, strlen(str));
 }
 
 void	handle_signal(void)
