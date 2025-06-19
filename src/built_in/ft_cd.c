@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 13:02:34 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:47:38 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	change_pwd(t_env *env, char *path)
 
 	i = 0;
 	tmp_path = ft_strdup(path);
+	if (!tmp_path)
+		return ;
 	if (!env || !env->envp)
 		return ;
 	while (env->envp[i])
@@ -38,7 +40,11 @@ static void	change_pwd(t_env *env, char *path)
 	free_things(env, path, tmp_path, i);
 	tmp_path = ft_strdup("PWD=");
 	cwd = getcwd(NULL, 0);
+	if (!tmp_path || ! cwd)
+		return ;
 	env->envp[i] = ft_strjoin(tmp_path, cwd);
+	if (!env->envp)
+		return ;
 	free(tmp_path);
 	free(cwd);
 }
