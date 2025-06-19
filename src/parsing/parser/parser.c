@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/18 15:45:06 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:05:39 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-// typedef struct s_cmd
-// {
-//     char            **cmd;
-//     char            **name;
-//     int             *in_or_out;
-//     int             fd_in;
-//     int             fd_out;
-//     struct s_cmd    *next;
-// }	t_cmd;
-
-// grep banane < test.txt < banane.txt | wc -l >> nb_ligne.txt
 
 void	initialise_node(t_cmd **node, int cmd_size, int redir_size)
 {

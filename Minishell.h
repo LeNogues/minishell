@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 12:20:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:18:17 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,24 +296,26 @@ typedef struct s_scanner
 }	t_scanner;
 
 // expand.c
-void				expand_one_token(t_token *token_node, t_info *info);
+void				expand_one_token(t_token *token_node, t_info *info, t_token **head);
 void				expand_token(t_token **head, t_info *info);
 void				expand_string(t_token **head, t_token *node, t_info *info);
 void				expand_one_token_return_value(t_token *token_node,
-						t_info *info);
+						t_info *info, t_token **head);
 
 // expand_string.c
 int					size_of_merged_string(t_token **sub_linked);
 char				*merge_string(t_token **head, int size);
-char				*return_string_from_quote(t_token *node);
-void				expand_one_token_sub(t_token **head, t_info *info);
-char				*return_string(t_token *node);
+char				*return_string_from_quote(t_token *node, t_token **head, t_info *info);
+char				*return_string(t_token *node, t_token **head, t_info *info);
 
 // expand_utils.c
 char				*ft_strchr(const char *s, int c);
 void				free_token_list(t_token **head);
 void				replace_node(t_token *node, char *resu);
 int					is_only_dollars(t_token *node);
+
+//expand_one_token_sub.c
+int					expand_one_token_sub(t_token **head, t_info *info);
 
 // main_function.c
 void				fusion(t_token **head);
@@ -360,6 +362,8 @@ void				ft_list_len(t_cmd *cmd);
 //create_linked_list.c
 void				insert_at_head(t_token **head, t_token *token);
 void				insert_last(t_token **head, t_token *token_list);
+void				exit_and_free_clean(t_token **head, t_info *info);
+
 
 //print_token.c
 void				print_list(t_token **head);
