@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 16:18:17 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:28:46 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,7 +318,7 @@ int					is_only_dollars(t_token *node);
 int					expand_one_token_sub(t_token **head, t_info *info);
 
 // main_function.c
-void				fusion(t_token **head);
+void				fusion(t_token **head, t_info *info);
 
 // fusion.c
 int					is_mergeable(t_token *node);
@@ -327,7 +327,7 @@ int					size_new_string(t_token *parcours,
 char				*create_new_string(t_token *parcours,
 						t_token *end_of_sequence, int i);
 void				delete_tokens(t_token *parcours, t_token *end_of_sequence);
-void				merge_tokens(t_token *parcours, t_token *end_of_sequence);
+int					merge_tokens(t_token *parcours, t_token *end_of_sequence);
 // init_scanner.c
 
 t_scanner			*scanner(void);
@@ -371,10 +371,10 @@ void				print_one_token(t_token *node);
 int					create_list_of_token(t_token **head);
 
 // parser.c
-void				parser(t_token **head, t_cmd **final);
+void				parser(t_token **head, t_cmd **final, t_info *info);
 char				**create_command_line(t_token *start, t_token *pipe);
 int					size_cmd_line(t_token *start, t_token *pipe);
-void				initialise_node(t_cmd **node, int cmd_size, int redir_size);
+int				initialise_node(t_cmd **node, int cmd_size, int redir_size);
 
 // handle.c functions
 t_token				*handle_cmd_token(t_cmd *node, t_token *token, int *i);
@@ -396,5 +396,7 @@ int					syntax_verif(t_token **head);
 // create_node.c
 t_cmd				*create_one_node(t_token *start, t_token *pipe);
 t_cmd				*create_one_node(t_token *start, t_token *pipe);
+void				free_all_cmd_bis(t_cmd **cmd);
+
 
 #endif

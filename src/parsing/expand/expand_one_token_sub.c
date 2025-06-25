@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_one_token_sub.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:15:39 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/06/19 16:28:46 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:48:14 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,21 @@ int	expand_one_token_for_sub(t_token *token_node, t_info *info)
 	value_token[i++] = '=';
 	value_token[i] = 0;
 	value = ft_getenv(value_token, info->env);
+	if (!value)
+		return (0);
 	free(value_token);
 	free(token_node->start);
 	token_node->length = ft_strlen(value);
 	if (!value)
 	{
 		token_node->start = ft_strdup("");
+		if (!token_node->start)
+			return (0);
 		return (3);
 	}
 	token_node->start = ft_strdup(value);
+	if (!token_node->start)
+		return (0);
 	free(value);
 	return (1);
 }
@@ -99,15 +105,21 @@ int	expand_one_token_spec(t_token *token_node, t_info *info)
 	value_token[i++] = '=';
 	value_token[i] = 0;
 	value = ft_getenv(value_token, info->env);
+	if (!value)
+		return (0);
 	free(value_token);
 	free(token_node->start);
 	token_node->length = ft_strlen(value);
 	if (!value)
 	{
 		token_node->start = ft_strdup("");
+		if (!token_node->start)
+			return (0);
 		return (3);
 	}
 	token_node->start = ft_strdup(value);
+	if (!token_node->start)
+		return (0);
 	free(value);
 	return (1);
 }

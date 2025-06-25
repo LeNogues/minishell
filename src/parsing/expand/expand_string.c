@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:15:35 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/19 16:12:07 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:43:07 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	expand_string(t_token **head, t_token *node, t_info *info)
 	(void)head;
 	sub_linked_list = NULL;
 	str = return_string_from_quote(node, head, info);
+	if (!str)
+		exit_and_free_clean(head, info);
 	init_scanner(str);
 	if (!create_list_of_token(&sub_linked_list))
 		exit_and_free_clean(head, info);

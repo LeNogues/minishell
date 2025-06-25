@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:33:01 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/06/19 16:11:50 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:27:37 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ t_cmd	*merge(t_info *info, char *source)
 		exit(1);
 	}
 	expand_token(&head, info);
-	fusion(&head);
-	parser(&head, &final);
+	fusion(&head, info);
+	parser(&head, &final, info);
 	ft_list_len(final);
 	free_token_list(&head);
 	return (final);

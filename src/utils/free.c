@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 21:33:12 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:31:51 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ void	free_all_cmd(t_cmd *cmd)
 		free(cmd);
 		cmd = tmp;
 	}
+}
+
+void	free_all_cmd_bis(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+
+
+	while (*cmd)
+	{
+		tmp = (*cmd)->next;
+		if ((*cmd)->cmd)
+			free_tab((*cmd)->cmd);
+		if ((*cmd)->name)
+			free_tab((*cmd)->name);
+		if ((*cmd)->in_or_out)
+			free((*cmd)->in_or_out);
+		if ((*cmd)->full_path)
+			free((*cmd)->full_path);
+		free(*cmd);
+		*cmd = tmp;
+	}
+	*cmd = NULL;
 }
 
 void	free_cmd(t_cmd *cmd)

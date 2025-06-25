@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:43:22 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/19 15:56:13 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:36:53 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,21 @@ void	expand_one_token(t_token *token_node, t_info *info, t_token **head)
 	value_token[i++] = '=';
 	value_token[i] = 0;
 	value = ft_getenv(value_token, info->env);
+	if (!value)
+		exit_and_free_clean(head, info);
 	free(value_token);
 	free(token_node->start);
 	token_node->length = ft_strlen(value);
 	if (!value)
 	{
 		token_node->start = ft_strdup("");
+		if (!token_node->start)
+			exit_and_free_clean(head, info);
 		return ;
 	}
 	token_node->start = ft_strdup(value);
+	if (!token_node->start)
+		exit_and_free_clean(head, info);
 	free(value);
 }
 
@@ -78,6 +84,8 @@ void	without_quote(t_token **head, t_token *node, t_info *info)
 	char	*str;
 
 	str = return_string(node, head, info);
+	if (!str)
+		exit_and_free_clean(head, info);
 	replace_node(node, str);
 }
 

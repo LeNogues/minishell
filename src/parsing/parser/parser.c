@@ -3,32 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/19 15:05:39 by oettaqi          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:32:40 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	initialise_node(t_cmd **node, int cmd_size, int redir_size)
+int	initialise_node(t_cmd **node, int cmd_size, int redir_size)
 {
 	(*node)->cmd = malloc(sizeof(char *) * (cmd_size + 1));
 	if (!(*node)->cmd)
-		return ;
+		return (0);
 	(*node)->name = malloc(sizeof(char *) * (redir_size + 1));
 	if (!(*node)->name)
-		return ;
+	{
+		free((*node)->cmd);
+		return (0);
+	}
 	(*node)->in_or_out = malloc(sizeof(int) * (redir_size + 1));
 	if (!(*node)->in_or_out)
-		return ;
+	{
+		free((*node)->cmd);
+		free((*node)->name);
+		return (0);
+	}
 	(*node)->full_path = NULL;
 	(*node)->heredoc = 0;
 	(*node)->pos = 0;
 	(*node)->fd_in = 0;
 	(*node)->fd_out = 0;
 	(*node)->nb_cmd = 0;
+	return (1);
 }
 
 void	insert_last_tcmd(t_cmd **head, t_cmd *token_list)
@@ -54,7 +62,17 @@ void	init_indices(int indices[2])
 	indices[1] = 0;
 }
 
-void	parser(t_token **head, t_cmd **final)
+void	exit_and_free_clean_pars(t_token **head, t_cmd **final, t_info *info)
+{
+	free_tab(info->env->envp);
+	free(info->env);
+	free(info);
+	free_token_list(head);
+	free_all_cmd_bis(final);
+	exit(1);
+}
+
+void	parser(t_token **head, t_cmd **final, t_info *info)
 {
 	t_token	*current_start;
 	t_token	*current;
@@ -78,6 +96,8 @@ void	parser(t_token **head, t_cmd **final)
 	if (current_start)
 	{
 		node = create_one_node(current_start, NULL);
+		if (!node)
+			exit_and_free_clean_pars(head, final, info);
 		if (node)
 			insert_last_tcmd(final, node);
 	}
