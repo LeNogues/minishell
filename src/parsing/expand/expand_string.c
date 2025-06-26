@@ -6,7 +6,7 @@
 /*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:15:35 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/25 15:43:07 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/25 17:56:29 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,34 +86,69 @@ char	*return_string(t_token *node, t_token **head, t_info *info)
 	return (value_token);
 }
 
+void	exit_with_clean(t_token **head, t_info *info, t_token **list, char *str)
+{
+	if (str)
+		free(str);
+	if (list && *list)
+		free_token_list(list);
+	exit_and_free_clean(head, info);
+}
+
 void	expand_string(t_token **head, t_token *node, t_info *info)
 {
-	char	*str;
-	char	*resu;
-	t_token	*sub_linked_list;
-	int		size;
+	char		*str;
+	char		*resu;
+	t_token		*sub_linked_list;
+	int			size;
 
-	(void)head;
+	str = NULL;
+	resu = NULL;
 	sub_linked_list = NULL;
 	str = return_string_from_quote(node, head, info);
 	if (!str)
-		exit_and_free_clean(head, info);
+		exit_with_clean(head, info, NULL, str);
 	init_scanner(str);
 	if (!create_list_of_token(&sub_linked_list))
-		exit_and_free_clean(head, info);
+		exit_with_clean(head, info, NULL, str);
 	free(str);
 	if (!expand_one_token_sub(&sub_linked_list, info))
-	{
-		free_token_list(&sub_linked_list);
-		exit_and_free_clean(head, info);
-	}
+		exit_with_clean(head, info, &sub_linked_list, NULL);
 	size = size_of_merged_string(&sub_linked_list);
 	resu = merge_string(&sub_linked_list, size);
 	if (!resu)
-	{
-		free_token_list(&sub_linked_list);
-		exit_and_free_clean(head, info);
-	}
+		exit_with_clean(head, info, &sub_linked_list, NULL);
 	replace_node(node, resu);
 	free_token_list(&sub_linked_list);
 }
+
+// void	expand_string(t_token **head, t_token *node, t_info *info)
+// {
+// 	char	*str;
+// 	char	*resu;
+// 	t_token	*sub_linked_list;
+// 	int		size;
+
+// 	sub_linked_list = NULL;
+// 	str = return_string_from_quote(node, head, info);
+// 	if (!str)
+// 		exit_and_free_clean(head, info);
+// 	init_scanner(str);
+// 	if (!create_list_of_token(&sub_linked_list))
+// 		exit_and_free_clean(head, info);
+// 	free(str);
+// 	if (!expand_one_token_sub(&sub_linked_list, info))
+// 	{
+// 		free_token_list(&sub_linked_list);
+// 		exit_and_free_clean(head, info);
+// 	}
+// 	size = size_of_merged_string(&sub_linked_list);
+// 	resu = merge_string(&sub_linked_list, size);
+// 	if (!resu)
+// 	{
+// 		free_token_list(&sub_linked_list);
+// 		exit_and_free_clean(head, info);
+// 	}
+// 	replace_node(node, resu);
+// 	free_token_list(&sub_linked_list);
+// }

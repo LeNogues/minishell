@@ -6,7 +6,7 @@
 /*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/25 17:28:46 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/26 12:12:10 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,6 +317,15 @@ int					is_only_dollars(t_token *node);
 //expand_one_token_sub.c
 int					expand_one_token_sub(t_token **head, t_info *info);
 
+//expand_one_token.c
+void				expand_one_token(t_token *token_node, t_info *info, t_token **head);
+
+//exp_one_tok_for_sub.c
+int					expand_one_token_for_sub(t_token *token_node, t_info *info);
+
+//exp_ins_heredoc.c
+char				*expand_for_heredoc(char *line, t_info *info);
+
 // main_function.c
 void				fusion(t_token **head, t_info *info);
 
@@ -384,6 +393,9 @@ t_token				*handle_heredoc(t_cmd *node, t_token *token, int *r);
 
 // parser.c helper
 void				init_indices(int indices[2]);
+
+// exit_parser.c
+void				exit_and_free_clean_pars(t_token **head, t_cmd **final, t_info *info);
 
 // parser_verif.c
 int					handle_redir_syntax(t_token **current_ptr);

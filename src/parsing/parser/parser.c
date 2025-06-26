@@ -6,7 +6,7 @@
 /*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/25 16:32:40 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/26 11:47:45 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,16 @@ void	init_indices(int indices[2])
 	indices[1] = 0;
 }
 
-void	exit_and_free_clean_pars(t_token **head, t_cmd **final, t_info *info)
+int	add_node_until_pipe(t_cmd **final, t_token **start, t_token *pipe)
 {
-	free_tab(info->env->envp);
-	free(info->env);
-	free(info);
-	free_token_list(head);
-	free_all_cmd_bis(final);
-	exit(1);
+	t_cmd	*node;
+
+	node = create_one_node(*start, pipe);
+	if (!node)
+		return (0);
+	insert_last_tcmd(final, node);
+	*start = pipe->next;
+	return (1);
 }
 
 void	parser(t_token **head, t_cmd **final, t_info *info)
@@ -86,9 +88,8 @@ void	parser(t_token **head, t_cmd **final, t_info *info)
 	{
 		if (current->type == PIPE)
 		{
-			node = create_one_node(current_start, current);
-			insert_last_tcmd(final, node);
-			current_start = current->next;
+			if (!add_node_until_pipe(final, &current_start, current))
+				exit_and_free_clean_pars(head, final, info);
 			current = current_start;
 		}
 		current = current->next;
@@ -98,7 +99,37 @@ void	parser(t_token **head, t_cmd **final, t_info *info)
 		node = create_one_node(current_start, NULL);
 		if (!node)
 			exit_and_free_clean_pars(head, final, info);
-		if (node)
-			insert_last_tcmd(final, node);
+		insert_last_tcmd(final, node);
 	}
 }
+
+// void	parser(t_token **head, t_cmd **final, t_info *info)
+// {
+// 	t_token	*current_start;
+// 	t_token	*current;
+// 	t_cmd	*node;
+
+// 	if (syntax_verif(head) == 1)
+// 		return ;
+// 	current_start = *head;
+// 	current = current_start;
+// 	while (current)
+// 	{
+// 		if (current->type == PIPE)
+// 		{
+// 			node = create_one_node(current_start, current);
+// 			insert_last_tcmd(final, node);
+// 			current_start = current->next;
+// 			current = current_start;
+// 		}
+// 		current = current->next;
+// 	}
+// 	if (current_start)
+// 	{
+// 		node = create_one_node(current_start, NULL);
+// 		if (!node)
+// 			exit_and_free_clean_pars(head, final, info);
+// 		if (node)
+// 			insert_last_tcmd(final, node);
+// 	}
+// }

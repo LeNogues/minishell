@@ -56,7 +56,10 @@
 # 		src/parsing/lexer/ft_list_len.c \
 # 		src/parsing/lexer/create_single_token.c \
 # 		src/parsing/expand/expand_one_token_sub.c
-
+# 		src/parsing/expand/exp_one_tok_for_sub.c
+# 		src/parsing/expand/expand_one_token.c
+# 		src/parsing/parser/exit_parser.c
+# 		src/parsing/expand_inside_heredoc/exp_ins_heredoc.c
 		
 
 # OBJ_DIR=obj
@@ -150,7 +153,11 @@ SRC = \
 	src/parsing/parser/syntax_verif.c \
 	src/parsing/lexer/ft_list_len.c \
 	src/parsing/lexer/create_single_token.c \
-	src/parsing/expand/expand_one_token_sub.c
+	src/parsing/expand/expand_one_token_sub.c \
+	src/parsing/expand/exp_one_tok_for_sub.c \
+	src/parsing/expand/expand_one_token.c \
+	src/parsing/parser/exit_parser.c \
+	src/parsing/expand_inside_heredoc/exp_ins_heredoc.c
 
 OBJ_DIR = obj
 OBJS = $(SRC:%.c=$(OBJ_DIR)/%.o)
